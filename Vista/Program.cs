@@ -12,6 +12,9 @@ namespace Vista
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
+        /*
+         * nada que modificar aquí, aquí se define cuál es el formulario con el que inicia la aplicación, que es el form FrmIniciarSesión.
+         */
         [STAThread]
         static void Main()
         {

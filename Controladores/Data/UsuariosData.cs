@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Controladores.Data
 {
+    //esta clase es igual al UsuarioEntity. ignoré el parámetro Activo porque no lo utilizaremos en la vista.
     public class UsuariosData
     {
         public int? Id { get; set; }

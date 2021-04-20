@@ -9,6 +9,10 @@ using Controladores.Catalogos;
 
 namespace Vista.Vistas.InicioSesion
 {
+    /*
+     * No hay nada más que mover aquí. 
+     * Sólo contiene el método para iniciar sesión, y si accede, ocultamos este form y abrimos el siguiente.
+     */
     public partial class FrmIniciarSesion : Form
     {
         private UsuariosCatalogoController usuariosCat;
@@ -21,14 +25,17 @@ namespace Vista.Vistas.InicioSesion
         private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
             string result=usuariosCat.IniciarSesion(txtUsuario.Text, txtContraseña.Text);
+            //si iniciar sesión no nos devuelve ningun mensaje, dejamos que el usuario entre al sistema.
             if (string.IsNullOrEmpty(result))
             {
+                //inicializamos el menú, 
                 FrmMenu menu = new FrmMenu();
                 menu.Show();
                 this.Visible=false;
             }
             else
             {
+                //si devuelve mensaje, se lo mostramos al usuario.
                 MessageBox.Show(result);
             }
         }

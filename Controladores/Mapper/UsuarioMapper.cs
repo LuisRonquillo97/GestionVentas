@@ -5,9 +5,18 @@ using System.Collections.Generic;
 
 namespace Controladores.Mapper
 {
+    /*
+     * AutoMapper es un NuGet que permite pasar parámetros de un objeto A a un Objeto B, aunque no sean de la misma clase
+     * es muy útil si tenemos que hacer lo anterior muchas veces, evitamos escribir tanto código.
+     */
     public class UsuarioMapper
     {
-        //configuramos el automapper para pasar métodos de un objeto a otro.
+        /*
+         * Primero, tenemos que configurar, desde que tipo de objeto A, vamos a pasar parámetos al objeto B.
+         * En este caso, de UsuariosEntity, pasaremos parámetros a UsuariosData.
+         * puede parecer confuso ya que se llaman iguales, pero los lambdas te dicen cuál es el objeto destino, y cual el objeto actuall
+         * osea, el objeto de origen.
+         */
         public IConfigurationProvider config = new MapperConfiguration(cfg =>
            cfg.CreateMap<UsuariosEntity, UsuariosData>()
             .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
@@ -21,7 +30,7 @@ namespace Controladores.Mapper
             var mapper = new AutoMapper.Mapper(config);
             return mapper.Map<UsuariosEntity, UsuariosData>(origen);
         }
-        //lo mismo pero para listas.
+        //método para mapear de una lista de objetos del modelo a uno del controlador.
         public List<UsuariosData> MapList(List<UsuariosEntity> origenList)
         {
             var mapper = new AutoMapper.Mapper(config);
