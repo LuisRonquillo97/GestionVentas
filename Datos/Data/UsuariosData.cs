@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Controladores.Data
+namespace Datos.Data
 {
     //esta clase es igual al UsuarioEntity. ignoré el parámetro Activo porque no lo utilizaremos en la vista.
     public class UsuariosData

@@ -1,9 +1,8 @@
-﻿using AutoMapper;
-using Controladores.Data;
-using Controladores.Mapper;
-using Modelos.Catálogos;
+﻿using Modelos.Catálogos;
 using Modelos.Entities;
 using System.Collections.Generic;
+using Datos.Data;
+using Datos.Mapper;
 
 namespace Controladores.Catalogos
 {
