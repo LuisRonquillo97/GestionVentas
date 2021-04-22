@@ -25,15 +25,8 @@ namespace Vista.Vistas.Usuarios
         public void SetDatagrid()
         {
             dgvUsuarios.DataSource = null;
-            if(int.TryParse(txtId.Text, out int id))
-            {
-                dgvUsuarios.DataSource = usuariosCat.ListarUsuarios(id, txtNombre.Text, txtUsuario.Text, txtContraseña.Text);
-            }
-            else
-            {
-                dgvUsuarios.DataSource = usuariosCat.ListarUsuarios(null, txtNombre.Text, txtUsuario.Text, txtContraseña.Text);
-            }
-            
+            dgvUsuarios.DataSource = usuariosCat.Listar(txtId.Text, txtNombre.Text, txtUsuario.Text, txtContraseña.Text);
+
         }
         public void BotonesEdicion()
         {
@@ -69,17 +62,10 @@ namespace Vista.Vistas.Usuarios
 
         private void BtnModificar_Click(object sender, EventArgs e)
         {
-            if(int.TryParse(txtId.Text, out int id))
-            {
-                MessageBox.Show(usuariosCat.Modificar(id, txtNombre.Text, txtUsuario.Text, txtContraseña.Text));
-                LimpiarCampos();
-                SetDatagrid();
-            }
-            else
-            {
-                MessageBox.Show("ID inválido.");
-            }
-            
+            MessageBox.Show(usuariosCat.Modificar(txtId.Text, txtNombre.Text, txtUsuario.Text, txtContraseña.Text));
+            LimpiarCampos();
+            SetDatagrid();
+
         }
 
         private void BtnEliminar_Click(object sender, EventArgs e)
@@ -87,16 +73,9 @@ namespace Vista.Vistas.Usuarios
             DialogResult dialogResult = MessageBox.Show("¿Está seguro de que desea eliminar este usuario?", "Confirmación", MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                if (int.TryParse(txtId.Text, out int id))
-                {
-                    MessageBox.Show(usuariosCat.Desactivar(id));
-                    LimpiarCampos();
-                    SetDatagrid();
-                }
-                else
-                {
-                    MessageBox.Show("ID inválido.");
-                }
+                MessageBox.Show(usuariosCat.Desactivar(txtId.Text));
+                LimpiarCampos();
+                SetDatagrid();
             }
         }
 
@@ -113,11 +92,14 @@ namespace Vista.Vistas.Usuarios
 
         private void DgvUsuarios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            txtId.Text = dgvUsuarios.Rows[e.RowIndex].Cells[0].Value.ToString();
-            txtNombre.Text = dgvUsuarios.Rows[e.RowIndex].Cells[1].Value.ToString();
-            txtUsuario.Text = dgvUsuarios.Rows[e.RowIndex].Cells[2].Value.ToString();
-            txtContraseña.Text = dgvUsuarios.Rows[e.RowIndex].Cells[3].Value.ToString();
-            BotonesEdicion();
+            if (e.RowIndex >= 0) {
+                txtId.Text = dgvUsuarios.Rows[e.RowIndex].Cells[0].Value.ToString();
+                txtNombre.Text = dgvUsuarios.Rows[e.RowIndex].Cells[1].Value.ToString();
+                txtUsuario.Text = dgvUsuarios.Rows[e.RowIndex].Cells[2].Value.ToString();
+                txtContraseña.Text = dgvUsuarios.Rows[e.RowIndex].Cells[3].Value.ToString();
+                BotonesEdicion();
+            }
+            
         }
     }
 }

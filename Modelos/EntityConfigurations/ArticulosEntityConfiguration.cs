@@ -8,7 +8,7 @@ namespace Modelos.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<ArticulosEntity> builder)
         {
-            builder.ToTable("Articulos");
+            builder.ToTable("Articulo");
 
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Id).IsRequired().HasColumnName("Id");

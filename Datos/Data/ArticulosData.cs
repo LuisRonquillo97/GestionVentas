@@ -11,6 +11,5 @@ namespace Datos.Data
         public int Impuesto { get; set; }
         public decimal PrecioVenta { get; set; }
         public int Existencia { get; set; }
-        public bool Activo { get; set; }
     }
 }

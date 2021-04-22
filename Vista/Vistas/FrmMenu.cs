@@ -73,6 +73,7 @@ namespace Vista.Vistas
              * finalmente, asignamos el método que elimina el form del dictionary de forms, que evita crear
              * múltiples instancias de un sólo formulario. (se hace para que el form se pueda volver a abrir).
              */
+            formInstance.MdiParent = this;
             formInstance.FormClosed += Child_FormClosed;
             //una vez todo el form está listo, lo mandamos a abrir.
             AbrirForm(key, formInstance);

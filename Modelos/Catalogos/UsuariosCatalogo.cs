@@ -103,7 +103,6 @@ namespace Modelos.Catalogos
                 if (!string.IsNullOrEmpty(filtros.Nombre)) UsuariosList = UsuariosList.Where(x => x.Nombre.Contains(filtros.Nombre)).ToList();
                 if(!string.IsNullOrEmpty(filtros.NombreUsuario)) UsuariosList = UsuariosList.Where(x => x.NombreUsuario.Contains(filtros.NombreUsuario)).ToList();
                 if(!string.IsNullOrEmpty(filtros.Contraseña)) UsuariosList = UsuariosList.Where(x => x.Contraseña.Contains(filtros.Contraseña)).ToList();
-                UsuariosList = UsuariosList.Where(x => x.Activo == filtros.Activo).ToList();
 
                 return UsuariosList;
             }

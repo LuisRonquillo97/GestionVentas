@@ -59,7 +59,7 @@ namespace Modelos.Catalogos
             }
             else
             {
-                var articulos = Context.Articulos.Where(x => x.Activo == filtros.Activo).ToList();
+                var articulos = Context.Articulos.ToList();
                 if (filtros.Id.HasValue) articulos = articulos.Where(x => x.Id.Value == filtros.Id.Value).ToList();
                 if (!string.IsNullOrEmpty(filtros.Descripcion)) articulos = articulos.Where(x => x.Descripcion.Contains(filtros.Descripcion)).ToList();
                 if (filtros.Existencia.HasValue) articulos = articulos.Where(x => x.Existencia.Value == filtros.Existencia.Value).ToList();

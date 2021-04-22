@@ -20,18 +20,21 @@ namespace Controladores.Catalogos
          * Recordemos que los método de UsuariosCatalogo utilizan un UsuariosEntity para funcionar, por eso existe este método.
          * nota: el poner ? al final de int, significa que ese int puede o no tener un valor.
          */
-        public ArticulosEntity GenerarEntidad(int? id, string descripcion, int? existencia, int? impuesto, decimal? precioVenta)
+        public ArticulosEntity GenerarEntidad(string id, string descripcion, string existencia, string impuesto, string precioVenta)
         {
-            //la notación ?? significa que si id es nulo, lo asigne como 0, y si no, que utilice el valor que tenga.
-            //utilizar corchetes después de inicializar un objeto es útil para llenar parámetros rápidamente. tambíén puedes
-            //inicializar el objeto y después asignar parámetros uno por uno.
-            return new ArticulosEntity() { Id = id ?? 0, Descripcion = descripcion, Existencia = existencia ?? 0, Impuesto = impuesto ?? 0, PrecioVenta = precioVenta ?? 0 };
+            
+            ArticulosEntity articulo= new ArticulosEntity() { Descripcion=descripcion};
+            if (int.TryParse(id, out int nid)) articulo.Id=nid;
+            if (int.TryParse(existencia, out int nexistencia)) articulo.Existencia=nexistencia;
+            if (int.TryParse(impuesto, out int nimpuesto)) articulo.Impuesto=nimpuesto;
+            if (decimal.TryParse(precioVenta, out decimal dprecioVenta)) articulo.PrecioVenta=dprecioVenta;
+            return articulo;
         }
         /*
          * El método agregar recibe desde el formulario el nombre, nombre de usuario y contraseña
          * y manda a guardar a BD el nuevo usuario.
          */
-        public string Agregar(string descripcion, int existencia, int impuesto, decimal precioVenta)
+        public string Agregar(string descripcion, string existencia, string impuesto, string precioVenta)
         {
             //necesitamos un usuarioEntity para utilizar el método agregar, así que lo generamos.
             //como es agregar y el ID es autoincremental en BD, pasamos un nulo en vez de dar un ID.
@@ -53,7 +56,7 @@ namespace Controladores.Catalogos
          * Modificar recibe desde el formulario todos los datos que pide el método.
          * manda a actualizar un registro en BD.
          */
-        public string Modificar(int id, string descripcion, int existencia, int impuesto, decimal precioVenta)
+        public string Modificar(string id, string descripcion, string existencia, string impuesto, string precioVenta)
         {
             //generamos el usuarioEntity necesario para modificar el registro en BD.
             ArticulosEntity articulo = GenerarEntidad(id, descripcion,existencia,impuesto,precioVenta);
@@ -74,29 +77,37 @@ namespace Controladores.Catalogos
          * sólo requerimos el ID desde el form para poderlo buscar.
          * en este método, no necesitamos crear un UsuarioEntity.
          */
-        public string Desactivar(int id)
+        public string Desactivar(string id)
         {
-            //Eliminar devuelve un booleano, que comparamos en el if.
-            if (articulosCatalogo.Eliminar(id))
+            if(int.TryParse(id,out int nid))
             {
-                return "Articulo eliminado correctamente.";
+                //Eliminar devuelve un booleano, que comparamos en el if.
+                if (articulosCatalogo.Eliminar(nid))
+                {
+                    return "Articulo eliminado correctamente.";
+                }
+                else
+                {
+                    //si hay un error, lo devolvemos
+                    return "Error al eliminar articulo:\n" + articulosCatalogo.Error.Message;
+                }
             }
             else
             {
-                //si hay un error, lo devolvemos
-                return "Error al eliminar articulo:\n" + articulosCatalogo.Error.Message;
+                return "Error al eliminar articulo:\nId inválido.";
             }
+            
         }
         /*
          * ListarUsuarios es el método más complejo de esta clase.
          * devuelve un listado de usuarios activos que obtiene desde BD.
          * también tiene la opción de filtrar si se pasan los parámetros correspondientes.
          */
-        public List<ArticulosData> Listar(int? id, string descripcion, int? existencia, int? impuesto, decimal? precioVenta)
+        public List<ArticulosData> Listar(string id, string descripcion, string existencia, string impuesto, string precioVenta)
         {
             //primero revisamos que al menos uno de todos los parámetros que podemos obtener desde el form tenga algún dato
             //para saber si debemos filtrar algo.
-            if (id.HasValue || !string.IsNullOrEmpty(descripcion) || existencia.HasValue || impuesto.HasValue || precioVenta.HasValue)
+            if (!string.IsNullOrEmpty(id) || !string.IsNullOrEmpty(descripcion) || !string.IsNullOrEmpty(existencia) || !string.IsNullOrEmpty(impuesto) || !string.IsNullOrEmpty(precioVenta))
             {
                 //si alguno tiene valor, creamos el UsuarioEntity.
                 ArticulosEntity articulo = GenerarEntidad(id, descripcion,existencia,impuesto,precioVenta);
