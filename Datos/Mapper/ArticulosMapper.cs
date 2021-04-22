@@ -2,10 +2,11 @@
 using Datos.Data;
 using Modelos.Entities;
 using System.Collections.Generic;
+using Datos.Interfaces;
 
 namespace Datos.Mapper
 {
-    public class ArticulosMapper
+    public class ArticulosMapper:IMapper<ArticulosData,ArticulosEntity>
     {
         public IConfigurationProvider config = new MapperConfiguration(cfg =>
            cfg.CreateMap<ArticulosEntity, ArticulosData>()

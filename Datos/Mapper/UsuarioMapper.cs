@@ -2,6 +2,7 @@
 using Datos.Data;
 using Modelos.Entities;
 using System.Collections.Generic;
+using Datos.Interfaces;
 
 namespace Datos.Mapper
 {
@@ -9,7 +10,7 @@ namespace Datos.Mapper
      * AutoMapper es un NuGet que permite pasar parámetros de un objeto A a un Objeto B, aunque no sean de la misma clase
      * es muy útil si tenemos que hacer lo anterior muchas veces, evitamos escribir tanto código.
      */
-    public class UsuarioMapper
+    public class UsuarioMapper: IMapper<UsuariosData,UsuariosEntity>
     {
         /*
          * Primero, tenemos que configurar, desde que tipo de objeto A, vamos a pasar parámetos al objeto B.

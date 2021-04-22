@@ -20,8 +20,8 @@ Activo	bit default 1 )
 
 create table Cliente(
 Id	int identity(1,1) primary key,
-Nombre	varchar(100),
-RfcCliente	varchar(15)	,
+NombreCompleto	varchar(250),
+Rfc	varchar(15)	,
 Direccion	varchar(100),
 Activo	bit default 1	
 )
@@ -56,3 +56,4 @@ IdEncNotaVenta	int foreign key references EncNotaVenta(Id)
 
 
 select * from Articulo
+update articulo set activo=1

@@ -19,10 +19,18 @@ namespace Modelos.Catalogos
         {
             try
             {
-                model.Id = null;
-                Context.Articulos.Add(model);
-                Context.SaveChanges();
-                return true;
+                if (Validar(model))
+                {
+                    model.Id = null;
+                    Context.Articulos.Add(model);
+                    Context.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                
             }
             catch (Exception e)
             {
@@ -59,7 +67,7 @@ namespace Modelos.Catalogos
             }
             else
             {
-                var articulos = Context.Articulos.ToList();
+                var articulos = Context.Articulos.Where(x=>x.Activo).ToList();
                 if (filtros.Id.HasValue) articulos = articulos.Where(x => x.Id.Value == filtros.Id.Value).ToList();
                 if (!string.IsNullOrEmpty(filtros.Descripcion)) articulos = articulos.Where(x => x.Descripcion.Contains(filtros.Descripcion)).ToList();
                 if (filtros.Existencia.HasValue) articulos = articulos.Where(x => x.Existencia.Value == filtros.Existencia.Value).ToList();
@@ -73,18 +81,59 @@ namespace Modelos.Catalogos
         {
             try
             {
-                var articulo = Context.Articulos.FirstOrDefault(x => x.Id.Value == model.Id.Value);
-                articulo.Descripcion = model.Descripcion;
-                articulo.Existencia = model.Existencia;
-                articulo.Impuesto = model.Impuesto;
-                articulo.PrecioVenta = model.PrecioVenta;
-                return true;
+                if (Validar(model,true))
+                {
+                    var articulo = Context.Articulos.FirstOrDefault(x => x.Id.Value == model.Id.Value);
+                    articulo.Descripcion = model.Descripcion;
+                    articulo.Existencia = model.Existencia;
+                    articulo.Impuesto = model.Impuesto;
+                    articulo.PrecioVenta = model.PrecioVenta;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                    
             }
             catch (Exception e)
             {
                 Error = e;
                 return false;
             }
+        }
+
+        public bool Validar(ArticulosEntity model,bool update=false)
+        {
+            if (update)
+            {
+                if (model.Id.Value <= 0)
+                {
+                    Error = new Exception("ID inválido.");
+                    return false;
+                }
+            }
+            if (string.IsNullOrEmpty(model.Descripcion) || model.Descripcion.Length>100)
+            {
+                Error = new Exception("Descripción inválida.");
+                return false;
+            }
+            if (model.Existencia < 0)
+            {
+                Error = new Exception("Las existencias del artículo no pueden ser menores a cero.");
+                return false;
+            }
+            if (model.PrecioVenta <= 0)
+            {
+                Error = new Exception("El precio de venta debe de ser mayor a cero.");
+                return false;
+            }
+            if (model.Impuesto < 0)
+            {
+                Error = new Exception("El impuesto del artículo debe ser mayor a cero.");
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Modelos.Contexts
         #region DBSets
         public DbSet<UsuariosEntity> Usuarios { get; set; }
         public DbSet<ArticulosEntity> Articulos { get; set; }
+        public DbSet<ClienteEntity> Clientes { get; set; }
         
         #endregion
 
@@ -38,6 +39,7 @@ namespace Modelos.Contexts
         {
             modelBuilder.ApplyConfiguration(new UsuarioEntityConfiguration());
             modelBuilder.ApplyConfiguration(new ArticulosEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new ClienteEntityConfiguration());
         }
         #endregion 
     }

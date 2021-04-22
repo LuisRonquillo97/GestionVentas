@@ -32,15 +32,23 @@ namespace Modelos.Catalogos
         {
             try
             {
-                //como se está agregando y el ID es autoincremental, no necesitamos que ID tenga valor, así que 
-                //lo asignamos nulo para evitar errores
-                model.Id = null;
-                //agregamos el usuario a la tabla usuarios
-                Context.Usuarios.Add(model);
-                //mandamos a guardar los cambios a base de datos
-                Context.SaveChanges();
-                //si todo ocurrió sin problemas, devolvemos true-
-                return true;
+                if (Validar(model))
+                {
+                    //como se está agregando y el ID es autoincremental, no necesitamos que ID tenga valor, así que 
+                    //lo asignamos nulo para evitar errores
+                    model.Id = null;
+                    //agregamos el usuario a la tabla usuarios
+                    Context.Usuarios.Add(model);
+                    //mandamos a guardar los cambios a base de datos
+                    Context.SaveChanges();
+                    //si todo ocurrió sin problemas, devolvemos true-
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                
             }
             //si por alguna razón hay un error, se crea una excepción llamada e.
             catch (Exception e)
@@ -98,7 +106,7 @@ namespace Modelos.Catalogos
             {
                 //si hay, obtenemos el listado de todos y vamos filtrando campo por campo, revisando antes que nada, que cada campo
                 //tenga un valor
-                List<UsuariosEntity> UsuariosList = Context.Usuarios.ToList();
+                List<UsuariosEntity> UsuariosList = Context.Usuarios.Where(x=>x.Activo).ToList();
                 if (filtros.Id.HasValue) UsuariosList=UsuariosList.Where(x => x.Id.Value == filtros.Id.Value).ToList();
                 if (!string.IsNullOrEmpty(filtros.Nombre)) UsuariosList = UsuariosList.Where(x => x.Nombre.Contains(filtros.Nombre)).ToList();
                 if(!string.IsNullOrEmpty(filtros.NombreUsuario)) UsuariosList = UsuariosList.Where(x => x.NombreUsuario.Contains(filtros.NombreUsuario)).ToList();
@@ -120,15 +128,22 @@ namespace Modelos.Catalogos
         {
             try
             {
-                //primero buscamos el usuario. El usuariosEntity debe tener un ID
-                var usuario = Context.Usuarios.FirstOrDefault(f => f.Id.Value == model.Id.Value);
-                //una vez obtenido el usuario, cambiamos sus datos menos el ID y el activo, ya que esos no se cambian aquí.
-                usuario.Nombre = model.Nombre;
-                usuario.NombreUsuario = model.NombreUsuario;
-                usuario.Contraseña = model.Contraseña;
-                //guardamos los cambios en BD.
-                Context.SaveChanges();
-                return true;
+                if (Validar(model,true)){
+                    //primero buscamos el usuario. El usuariosEntity debe tener un ID
+                    var usuario = Context.Usuarios.FirstOrDefault(f => f.Id.Value == model.Id.Value);
+                    //una vez obtenido el usuario, cambiamos sus datos menos el ID y el activo, ya que esos no se cambian aquí.
+                    usuario.Nombre = model.Nombre;
+                    usuario.NombreUsuario = model.NombreUsuario;
+                    usuario.Contraseña = model.Contraseña;
+                    //guardamos los cambios en BD.
+                    Context.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                
             }
             catch(Exception e)
             {
@@ -173,6 +188,29 @@ namespace Modelos.Catalogos
                 return false;
             }
             
+        }
+
+        public bool Validar(UsuariosEntity model, bool update = false)
+        {
+            if (update)
+            {
+                if (model.Id.Value <= 0)
+                {
+                    Error = new Exception("ID inválido.");
+                    return false;
+                }
+            }
+            if (string.IsNullOrEmpty(model.NombreUsuario))
+            {
+                Error = new Exception("El nombre de usuario es requerido.");
+                return false;
+            }
+            if (string.IsNullOrEmpty(model.Contraseña))
+            {
+                Error = new Exception("la contraseña es requerida.");
+                return false;
+            }
+            return true;
         }
     }
 }
