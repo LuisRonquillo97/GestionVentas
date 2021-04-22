@@ -5,7 +5,7 @@ using Modelos.Contexts;
 using Modelos.Entities;
 using Modelos.Interfaces;
 
-namespace Modelos.Catálogos
+namespace Modelos.Catalogos
 {
     /*
      * Clase en la que se realizan los movimientos de base de datos.

@@ -59,6 +59,7 @@ namespace Vista.Vistas.InicioSesion
             this.txtContraseña.Size = new System.Drawing.Size(156, 23);
             this.txtContraseña.TabIndex = 3;
             this.txtContraseña.UseSystemPasswordChar = true;
+            this.txtContraseña.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtContraseña_KeyDown);
             // 
             // label1
             // 
@@ -89,6 +90,7 @@ namespace Vista.Vistas.InicioSesion
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtUsuario);
             this.Controls.Add(this.lblUsuario);
+            this.MaximizeBox = false;
             this.Name = "FrmIniciarSesion";
             this.Text = "Inicio de sesión";
             this.ResumeLayout(false);

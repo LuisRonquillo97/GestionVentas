@@ -6,11 +6,13 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Vista.Interfaces;
 
 namespace Vista.Vistas.Usuarios
 {
-    public partial class FrmUsuarios : Form
+    public partial class FrmUsuarios : Form, IFormClosable
     {
+        public string Key { get; set; }
         public UsuariosCatalogoController usuariosCat;
         public FrmUsuarios()
         {
@@ -18,6 +20,7 @@ namespace Vista.Vistas.Usuarios
             usuariosCat = new UsuariosCatalogoController();
             BotonesNuevo();
             SetDatagrid();
+            Key = "usuarios";
         }
         public void SetDatagrid()
         {
@@ -57,14 +60,14 @@ namespace Vista.Vistas.Usuarios
             BotonesNuevo();
         }
 
-        private void btnAgregar_Click(object sender, EventArgs e)
+        private void BtnAgregar_Click(object sender, EventArgs e)
         {
             MessageBox.Show(usuariosCat.Agregar(txtNombre.Text, txtUsuario.Text, txtContraseña.Text));
             LimpiarCampos();
             SetDatagrid();
         }
 
-        private void btnModificar_Click(object sender, EventArgs e)
+        private void BtnModificar_Click(object sender, EventArgs e)
         {
             if(int.TryParse(txtId.Text, out int id))
             {
@@ -79,7 +82,7 @@ namespace Vista.Vistas.Usuarios
             
         }
 
-        private void btnEliminar_Click(object sender, EventArgs e)
+        private void BtnEliminar_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("¿Está seguro de que desea eliminar este usuario?", "Confirmación", MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
@@ -97,18 +100,18 @@ namespace Vista.Vistas.Usuarios
             }
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e)
+        private void BtnBuscar_Click(object sender, EventArgs e)
         {
             SetDatagrid();
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
+        private void BtnCancelar_Click(object sender, EventArgs e)
         {
             LimpiarCampos();
             BotonesNuevo();
         }
 
-        private void dgvUsuarios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DgvUsuarios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             txtId.Text = dgvUsuarios.Rows[e.RowIndex].Cells[0].Value.ToString();
             txtNombre.Text = dgvUsuarios.Rows[e.RowIndex].Cells[1].Value.ToString();

@@ -73,57 +73,57 @@ namespace Vista.Vistas.Usuarios
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(339, 129);
+            this.btnCancelar.Location = new System.Drawing.Point(341, 82);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 20;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
-            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            this.btnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click);
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(258, 129);
+            this.btnBuscar.Location = new System.Drawing.Point(260, 82);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 23);
             this.btnBuscar.TabIndex = 19;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
-            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            this.btnBuscar.Click += new System.EventHandler(this.BtnBuscar_Click);
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(177, 129);
+            this.btnEliminar.Location = new System.Drawing.Point(179, 82);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(75, 23);
             this.btnEliminar.TabIndex = 18;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
-            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
+            this.btnEliminar.Click += new System.EventHandler(this.BtnEliminar_Click);
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(96, 129);
+            this.btnModificar.Location = new System.Drawing.Point(98, 82);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(75, 23);
             this.btnModificar.TabIndex = 17;
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
-            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
+            this.btnModificar.Click += new System.EventHandler(this.BtnModificar_Click);
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(15, 129);
+            this.btnAgregar.Location = new System.Drawing.Point(17, 82);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(75, 23);
             this.btnAgregar.TabIndex = 16;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
-            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
+            this.btnAgregar.Click += new System.EventHandler(this.BtnAgregar_Click);
             // 
             // txtContraseña
             // 
-            this.txtContraseña.Location = new System.Drawing.Point(92, 56);
+            this.txtContraseña.Location = new System.Drawing.Point(560, 21);
             this.txtContraseña.Name = "txtContraseña";
             this.txtContraseña.Size = new System.Drawing.Size(146, 23);
             this.txtContraseña.TabIndex = 15;
@@ -131,7 +131,7 @@ namespace Vista.Vistas.Usuarios
             // lblContraseña
             // 
             this.lblContraseña.AutoSize = true;
-            this.lblContraseña.Location = new System.Drawing.Point(16, 59);
+            this.lblContraseña.Location = new System.Drawing.Point(484, 24);
             this.lblContraseña.Name = "lblContraseña";
             this.lblContraseña.Size = new System.Drawing.Size(70, 15);
             this.lblContraseña.TabIndex = 14;
@@ -189,9 +189,9 @@ namespace Vista.Vistas.Usuarios
             // 
             this.panel2.Controls.Add(this.dgvUsuarios);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 174);
+            this.panel2.Location = new System.Drawing.Point(0, 146);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(757, 202);
+            this.panel2.Size = new System.Drawing.Size(757, 230);
             this.panel2.TabIndex = 1;
             // 
             // dgvUsuarios
@@ -204,9 +204,9 @@ namespace Vista.Vistas.Usuarios
             this.dgvUsuarios.Name = "dgvUsuarios";
             this.dgvUsuarios.ReadOnly = true;
             this.dgvUsuarios.RowTemplate.Height = 25;
-            this.dgvUsuarios.Size = new System.Drawing.Size(757, 202);
+            this.dgvUsuarios.Size = new System.Drawing.Size(757, 230);
             this.dgvUsuarios.TabIndex = 0;
-            this.dgvUsuarios.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsuarios_CellDoubleClick);
+            this.dgvUsuarios.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvUsuarios_CellDoubleClick);
             // 
             // FrmUsuarios
             // 
@@ -215,6 +215,7 @@ namespace Vista.Vistas.Usuarios
             this.ClientSize = new System.Drawing.Size(757, 376);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.MaximizeBox = false;
             this.Name = "FrmUsuarios";
             this.Text = "Catálogo de usuarios";
             this.panel1.ResumeLayout(false);

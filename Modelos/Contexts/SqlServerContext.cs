@@ -17,6 +17,7 @@ namespace Modelos.Contexts
         //y C# ya sepa a qué tabla nos referimos.
         #region DBSets
         public DbSet<UsuariosEntity> Usuarios { get; set; }
+        public DbSet<ArticulosEntity> Articulos { get; set; }
         
         #endregion
 
@@ -36,6 +37,7 @@ namespace Modelos.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UsuarioEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new ArticulosEntityConfiguration());
         }
         #endregion 
     }
