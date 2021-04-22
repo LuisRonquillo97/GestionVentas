@@ -11,5 +11,6 @@ namespace Modelos.Entities
         public string Rfc { get; set; }
         public string Direccion { get; set; }
         public bool Activo { get; set; }
+        public virtual List<EncabezadoNotaEntity> EncabezadosNota { get; set; }
     }
 }

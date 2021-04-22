@@ -12,7 +12,7 @@ namespace Modelos.Catalogos
      * se utiliza la interfaz IMetodosCatalogo con la entidad de usuarios.
      * el <T> de la interfaz, aquí será UsuariosEntity.
      */
-    public class UsuariosCatalogo : IMetodosCatalogo<UsuariosEntity>
+    public class UsuariosCatalogo : IMetodosCatalogo<UsuarioEntity>
     {
         //inicializamos el contexto de SQL server, que será en nuestra máquina local. Si no hacemos esto, no podremos editar nuestra base de datos.
         private readonly SqlServerContext Context;
@@ -28,7 +28,7 @@ namespace Modelos.Catalogos
          * devuelve un booleano true/false.
          * si devuelve false, la excepción que arroje se guarda en la variable error.
          */
-        public bool Agregar(UsuariosEntity model)
+        public bool Agregar(UsuarioEntity model)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace Modelos.Catalogos
          * devuelve un UsuarioEntity que tendrá los datos del usuario que buscó.
          * si no encuentra ningún usuario, devolverá null.
          */
-        public UsuariosEntity BuscarPorId(int id)
+        public UsuarioEntity BuscarPorId(int id)
         {
             return Context.Usuarios.FirstOrDefault(f => f.Id == id);
         }
@@ -99,14 +99,14 @@ namespace Modelos.Catalogos
          * por defecto, devuelve un listado de todos los usuarios activos.
          * si se tienen filtros, realiza el filtro de todos los datos posibles, y devuelve el resultado de la búsqueda.
          */
-        public List<UsuariosEntity> Listar(UsuariosEntity filtros = null)
+        public List<UsuarioEntity> Listar(UsuarioEntity filtros = null)
         {
             //verificamos si hay filtros
             if (filtros != null)
             {
                 //si hay, obtenemos el listado de todos y vamos filtrando campo por campo, revisando antes que nada, que cada campo
                 //tenga un valor
-                List<UsuariosEntity> UsuariosList = Context.Usuarios.Where(x=>x.Activo).ToList();
+                List<UsuarioEntity> UsuariosList = Context.Usuarios.Where(x=>x.Activo).ToList();
                 if (filtros.Id.HasValue) UsuariosList=UsuariosList.Where(x => x.Id.Value == filtros.Id.Value).ToList();
                 if (!string.IsNullOrEmpty(filtros.Nombre)) UsuariosList = UsuariosList.Where(x => x.Nombre.Contains(filtros.Nombre)).ToList();
                 if(!string.IsNullOrEmpty(filtros.NombreUsuario)) UsuariosList = UsuariosList.Where(x => x.NombreUsuario.Contains(filtros.NombreUsuario)).ToList();
@@ -124,7 +124,7 @@ namespace Modelos.Catalogos
          * Modificar recibe un UsuariosEntity que contiene los datos para buscar y modificar un registro de BD.
          */
 
-        public bool Modificar(UsuariosEntity model)
+        public bool Modificar(UsuarioEntity model)
         {
             try
             {
@@ -190,7 +190,7 @@ namespace Modelos.Catalogos
             
         }
 
-        public bool Validar(UsuariosEntity model, bool update = false)
+        public bool Validar(UsuarioEntity model, bool update = false)
         {
             if (update)
             {

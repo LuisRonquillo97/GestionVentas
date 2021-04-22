@@ -42,6 +42,7 @@ Id	int  identity(1,1) primary key,
 FechaCreado	datetime,
 Comentario	varchar(100),
 IdCliente	int foreign key references Cliente(Id),
+IdTipoPago int foreign key references TipoPago(Id),
 status	varchar(10)
 )
 
@@ -55,5 +56,4 @@ IdEncNotaVenta	int foreign key references EncNotaVenta(Id)
 
 
 
-select * from Articulo
-update articulo set activo=1
+select * from cliente

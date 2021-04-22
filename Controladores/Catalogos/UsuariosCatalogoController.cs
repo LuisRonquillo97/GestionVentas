@@ -28,12 +28,12 @@ namespace Controladores.Catalogos
          * Recordemos que los método de UsuariosCatalogo utilizan un UsuariosEntity para funcionar, por eso existe este método.
          * nota: el poner ? al final de int, significa que ese int puede o no tener un valor.
          */
-        public UsuariosEntity GenerarEntidad(string id, string nombre, string nombreUsuario, string contraseña)
+        public UsuarioEntity GenerarEntidad(string id, string nombre, string nombreUsuario, string contraseña)
         {
             //la notación ?? significa que si id es nulo, lo asigne como 0, y si no, que utilice el valor que tenga.
             //utilizar corchetes después de inicializar un objeto es útil para llenar parámetros rápidamente. tambíén puedes
             //inicializar el objeto y después asignar parámetros uno por uno.
-            UsuariosEntity usuario= new UsuariosEntity() { Nombre = nombre, NombreUsuario = nombreUsuario, Contraseña = contraseña };
+            UsuarioEntity usuario= new UsuarioEntity() { Nombre = nombre, NombreUsuario = nombreUsuario, Contraseña = contraseña };
             if (int.TryParse(id, out int nid))
                 usuario.Id=nid;
 
@@ -47,7 +47,7 @@ namespace Controladores.Catalogos
         {
             //necesitamos un usuarioEntity para utilizar el método agregar, así que lo generamos.
             //como es agregar y el ID es autoincremental en BD, pasamos un nulo en vez de dar un ID.
-            UsuariosEntity Usuario = GenerarEntidad(null, nombre, nombreUsuario, contraseña);
+            UsuarioEntity Usuario = GenerarEntidad(null, nombre, nombreUsuario, contraseña);
             //el método agregar devuelve un booleano, que utilizamos para comparar directamente en el if.
             if (usuariosCatalogo.Agregar(Usuario))
             {
@@ -68,7 +68,7 @@ namespace Controladores.Catalogos
         public string Modificar(string id, string nombre, string nombreUsuario, string contraseña)
         {
             //generamos el usuarioEntity necesario para modificar el registro en BD.
-            UsuariosEntity usuario = GenerarEntidad(id, nombre, nombreUsuario, contraseña);
+            UsuarioEntity usuario = GenerarEntidad(id, nombre, nombreUsuario, contraseña);
             //Modificar devuelve un booleano, que comparamos en el if.
             if (usuariosCatalogo.Modificar(usuario))
             {
@@ -119,7 +119,7 @@ namespace Controladores.Catalogos
             if (!string.IsNullOrEmpty(id) || !string.IsNullOrEmpty(nombre) || !string.IsNullOrEmpty(nombreUsuario) || !string.IsNullOrEmpty(contraseña))
             {
                 //si alguno tiene valor, creamos el UsuarioEntity.
-                UsuariosEntity usuario = GenerarEntidad(id, nombre, nombreUsuario, contraseña);
+                UsuarioEntity usuario = GenerarEntidad(id, nombre, nombreUsuario, contraseña);
                 /*
                  * recordemos que en MVC, el modelo, que es de donde devolvemos los datos, no puede interactual con la vista
                  * que es el form.
@@ -129,12 +129,12 @@ namespace Controladores.Catalogos
                  * La explicación de cómo funciona estará en la clase UsuarioMapper.
                  * pasamos el UsuarioEntity al método listar, y mapeamos el resultado a una lista de UsuarioData.
                  */
-                return new UsuarioMapper().MapList(usuariosCatalogo.Listar(usuario));
+                return new UsuariosMapper().MapList(usuariosCatalogo.Listar(usuario));
             }
             else
             {
                 //si no se tienen datos para filtrar, obtenemos la lista de los usuarios activos.
-                return new UsuarioMapper().MapList(usuariosCatalogo.Listar());
+                return new UsuariosMapper().MapList(usuariosCatalogo.Listar());
             }
 
         }
@@ -145,7 +145,7 @@ namespace Controladores.Catalogos
          */
         public UsuariosData BuscarPorId(int id)
         {
-            return new UsuarioMapper().Map(usuariosCatalogo.BuscarPorId(id));
+            return new UsuariosMapper().Map(usuariosCatalogo.BuscarPorId(id));
         }
         /*
          * Método que permite iniciar sesión en el sistema.

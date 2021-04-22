@@ -10,13 +10,13 @@ namespace Modelos.EntityConfigurations
      * y pasarle entre comparadores <> el nombre de la entidad de la cual haremos la configuración
      * en este caso, es de usuariosEntity.
      */
-    public class UsuarioEntityConfiguration : IEntityTypeConfiguration<UsuariosEntity>
+    public class UsuarioEntityConfiguration : IEntityTypeConfiguration<UsuarioEntity>
     {
         /*
          * La intefaz que usamos tiene este método que debemos implemental.
          * builder es el parámetro que utilizamos para crear la relación a BD
          */
-        public void Configure(EntityTypeBuilder<UsuariosEntity> builder)
+        public void Configure(EntityTypeBuilder<UsuarioEntity> builder)
         {
             //primero, le decimos cómo se llama la tabla con la que debe conectarse
             builder.ToTable("Usuario");

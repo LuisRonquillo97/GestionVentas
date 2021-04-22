@@ -4,9 +4,9 @@ using Modelos.Entities;
 
 namespace Modelos.EntityConfigurations
 {
-    public class ArticulosEntityConfiguration : IEntityTypeConfiguration<ArticulosEntity>
+    public class ArticuloEntityConfiguration : IEntityTypeConfiguration<ArticuloEntity>
     {
-        public void Configure(EntityTypeBuilder<ArticulosEntity> builder)
+        public void Configure(EntityTypeBuilder<ArticuloEntity> builder)
         {
             builder.ToTable("Articulo");
 

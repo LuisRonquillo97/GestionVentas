@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Modelos.Catalogos
 {
-    public class ArticulosCatalogo : IMetodosCatalogo<ArticulosEntity>
+    public class ArticulosCatalogo : IMetodosCatalogo<ArticuloEntity>
     {
         private readonly SqlServerContext Context;
         public Exception Error { get; set; }
@@ -15,7 +15,7 @@ namespace Modelos.Catalogos
         {
             Context = new SqlServerContext();
         }
-        public bool Agregar(ArticulosEntity model)
+        public bool Agregar(ArticuloEntity model)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace Modelos.Catalogos
             }
         }
 
-        public ArticulosEntity BuscarPorId(int id)
+        public ArticuloEntity BuscarPorId(int id)
         {
             return Context.Articulos.FirstOrDefault(x => x.Id.Value == id);
         }
@@ -59,7 +59,7 @@ namespace Modelos.Catalogos
             }
         }
 
-        public List<ArticulosEntity> Listar(ArticulosEntity filtros=null)
+        public List<ArticuloEntity> Listar(ArticuloEntity filtros=null)
         {
             if (filtros == null)
             {
@@ -77,7 +77,7 @@ namespace Modelos.Catalogos
             }
         }
 
-        public bool Modificar(ArticulosEntity model)
+        public bool Modificar(ArticuloEntity model)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace Modelos.Catalogos
             }
         }
 
-        public bool Validar(ArticulosEntity model,bool update=false)
+        public bool Validar(ArticuloEntity model,bool update=false)
         {
             if (update)
             {

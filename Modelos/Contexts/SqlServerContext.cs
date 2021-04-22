@@ -16,9 +16,12 @@ namespace Modelos.Contexts
         //aquí se crean los DbSets de cada tabla, esto sirve para cuando vamos a utilizar una tabla, podamos hacer algo tipo Context.Usuarios
         //y C# ya sepa a qué tabla nos referimos.
         #region DBSets
-        public DbSet<UsuariosEntity> Usuarios { get; set; }
-        public DbSet<ArticulosEntity> Articulos { get; set; }
+        public DbSet<UsuarioEntity> Usuarios { get; set; }
+        public DbSet<ArticuloEntity> Articulos { get; set; }
         public DbSet<ClienteEntity> Clientes { get; set; }
+        public DbSet<TipoPagoEntity> TiposPago { get; set; }
+        public DbSet<EncabezadoNotaEntity> EncabezadosNota { get; set; }
+        public DbSet<DetalleNotaEntity> DetallesNota { get; set; }
         
         #endregion
 
@@ -38,8 +41,11 @@ namespace Modelos.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UsuarioEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new ArticulosEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new ArticuloEntityConfiguration());
             modelBuilder.ApplyConfiguration(new ClienteEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new TipoPagoEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new EncabezadoNotaEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new DetalleNotaEntityConfiguration());
         }
         #endregion 
     }

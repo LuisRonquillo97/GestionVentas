@@ -32,7 +32,7 @@ namespace Pruebas
         public void Buscar()
         {
             var obtenidos = clientesCat.Listar("", "", "", "").Count;
-            Assert.GreaterOrEqual(1, obtenidos, $"Elementos obtenidos: {obtenidos}. Se esperaba uno o más de uno.");
+            Assert.GreaterOrEqual(obtenidos,1, $"Elementos obtenidos: {obtenidos}. Se esperaba uno o más de uno.");
         }
         [Test]
         public void BuscarConFiltros()

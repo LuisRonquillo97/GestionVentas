@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Modelos.Entities
 {
-    public class ArticulosEntity
+    public class ArticuloEntity
     {
         public int? Id { get; set; }
         public string Descripcion { get; set; }
@@ -12,5 +12,6 @@ namespace Modelos.Entities
         public decimal? PrecioVenta { get; set; }
         public int? Existencia { get; set; }
         public bool Activo { get; set; }
+        public virtual List<DetalleNotaEntity> DetallesNota { get; set; }
     }
 }
