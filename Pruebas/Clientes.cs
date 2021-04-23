@@ -1,7 +1,5 @@
-using NUnit.Framework;
 using Controladores.Catalogos;
-using Datos.Data;
-using Datos.Mapper;
+using NUnit.Framework;
 
 namespace Pruebas
 {

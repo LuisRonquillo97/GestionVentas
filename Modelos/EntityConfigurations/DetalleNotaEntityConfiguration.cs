@@ -9,6 +9,7 @@ namespace Modelos.EntityConfigurations
         public void Configure(EntityTypeBuilder<DetalleNotaEntity> builder)
         {
             #region tablas y relaciones
+            builder.ToTable("DetNotaVenta");
             builder.HasKey(x => x.Id);
             builder.HasOne(x => x.Articulo).WithMany(x => x.DetallesNota).HasForeignKey(x => x.IdArticulo).HasPrincipalKey(x => x.Id);
             builder.HasOne(x => x.EncabezadoNota).WithMany(x => x.DetalleNotas).HasForeignKey(x => x.IdEncabezadoNota).HasPrincipalKey(x => x.Id);
@@ -19,6 +20,7 @@ namespace Modelos.EntityConfigurations
             builder.Property(x => x.IdEncabezadoNota).IsRequired().HasColumnName("IdEncNotaVenta");
             builder.Property(x => x.PrecioVenta).IsRequired().HasColumnName("PrecioVenta");
             builder.Property(x => x.Cantidad).IsRequired().HasColumnName("Cantidad");
+            builder.Property(x => x.Activo).IsRequired().HasDefaultValue(true).HasColumnName("Activo");
             #endregion
         }
     }

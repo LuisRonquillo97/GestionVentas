@@ -84,11 +84,20 @@ namespace Modelos.Catalogos
                 if (Validar(model,true))
                 {
                     var articulo = Context.Articulos.FirstOrDefault(x => x.Id.Value == model.Id.Value);
-                    articulo.Descripcion = model.Descripcion;
-                    articulo.Existencia = model.Existencia;
-                    articulo.Impuesto = model.Impuesto;
-                    articulo.PrecioVenta = model.PrecioVenta;
-                    return true;
+                    if (articulo != null)
+                    {
+                        articulo.Descripcion = model.Descripcion;
+                        articulo.Existencia = model.Existencia;
+                        articulo.Impuesto = model.Impuesto;
+                        articulo.PrecioVenta = model.PrecioVenta;
+                        return true;
+                    }
+                    else
+                    {
+                        Error = new Exception("El articulo no se encontró.");
+                        return false;
+                    }
+                    
                 }
                 else
                 {

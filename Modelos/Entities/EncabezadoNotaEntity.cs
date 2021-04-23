@@ -7,7 +7,7 @@ namespace Modelos.Entities
     public class EncabezadoNotaEntity
     {
         public int? Id { get; set; }
-        public DateTime FechaCreado { get; set; }
+        public DateTime? FechaCreado { get; set; }
         public string Comentario { get; set; }
         public int? IdCliente { get; set; }
         public int? IdTipoPago { get; set; }

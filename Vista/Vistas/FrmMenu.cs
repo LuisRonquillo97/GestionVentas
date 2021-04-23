@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using Vista.Interfaces;
-using Vista.Vistas.Articulos;
-using Vista.Vistas.Clientes;
-using Vista.Vistas.Usuarios;
-using System.Reflection;
-using System.Linq;
 
 namespace Vista.Vistas
 {
@@ -26,6 +23,7 @@ namespace Vista.Vistas
             tsmiUsuario.Click += Tsmi_Click;
             tsmiClientes.Click += Tsmi_Click;
             tsmiArticulos.Click += Tsmi_Click;
+            tsmiVentas.Click += Tsmi_Click;
             //cuando se abra esta ventana, le decimos que se maximice.
             this.WindowState = FormWindowState.Maximized;
             formularios = new Dictionary<string, Form>();

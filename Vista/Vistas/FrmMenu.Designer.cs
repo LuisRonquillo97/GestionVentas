@@ -36,6 +36,7 @@ namespace Vista.Vistas
             this.tsmiEncabezados = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDetalles = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiUsuario = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiVentas = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,6 +71,7 @@ namespace Vista.Vistas
             // tsmiNotas
             // 
             this.tsmiNotas.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiVentas,
             this.tsmiEncabezados,
             this.tsmiDetalles});
             this.tsmiNotas.Name = "tsmiNotas";
@@ -97,6 +99,12 @@ namespace Vista.Vistas
             this.tsmiUsuario.Tag = "FrmUsuarios";
             this.tsmiUsuario.Text = "Usuarios";
             // 
+            // tsmiVentas
+            // 
+            this.tsmiVentas.Name = "tsmiVentas";
+            this.tsmiVentas.Size = new System.Drawing.Size(142, 22);
+            this.tsmiVentas.Text = "Ventas";
+            // 
             // FrmMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -123,5 +131,6 @@ namespace Vista.Vistas
         private System.Windows.Forms.ToolStripMenuItem tsmiDetalles;
         private System.Windows.Forms.ToolStripMenuItem tsmiClientes;
         private System.Windows.Forms.ToolStripMenuItem tsmiArticulos;
+        private System.Windows.Forms.ToolStripMenuItem tsmiVentas;
     }
 }

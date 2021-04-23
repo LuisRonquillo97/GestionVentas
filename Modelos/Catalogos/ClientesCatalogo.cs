@@ -83,11 +83,20 @@ namespace Modelos.Catalogos
                 if (Validar(model, true))
                 {
                     var cliente = Context.Clientes.FirstOrDefault(x => x.Id.Value == model.Id.Value);
-                    cliente.Direccion = model.Direccion;
-                    cliente.NombreCompleto = model.NombreCompleto;
-                    cliente.Rfc = model.Rfc;
-                    Context.SaveChanges();
-                    return true;
+                    if (cliente != null)
+                    {
+                        cliente.Direccion = model.Direccion;
+                        cliente.NombreCompleto = model.NombreCompleto;
+                        cliente.Rfc = model.Rfc;
+                        Context.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        Error = new Exception("El cliente no se encontró.");
+                        return false;
+                    }
+                    
                 }
                 else
                 {

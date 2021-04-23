@@ -51,9 +51,14 @@ Id int  identity(1,1) primary key,
 IdArticulo	int foreign key references Articulo(Id),
 PrecioVenta	money,
 Cantidad	int,
-IdEncNotaVenta	int foreign key references EncNotaVenta(Id)
+IdEncNotaVenta	int foreign key references EncNotaVenta(Id),
+Activo bit default 1
 )
 
 
 
-select * from cliente
+select * from TipoPago
+update TipoPago set activo=1
+
+alter table DetNotaVenta 
+add Activo bit default 1

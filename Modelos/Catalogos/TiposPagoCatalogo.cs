@@ -82,9 +82,18 @@ namespace Modelos.Catalogos
                 if (Validar(model, true))
                 {
                     var tipoPago = Context.TiposPago.FirstOrDefault(x => x.Id.Value == model.Id.Value);
-                    tipoPago.Descripcion = model.Descripcion;
-                    Context.SaveChanges();
-                    return true;
+                    if (tipoPago != null)
+                    {
+                        tipoPago.Descripcion = model.Descripcion;
+                        Context.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        Error = new Exception("El tipo de pago no se encontró.");
+                        return false;
+                    }
+                    
                 }
                 else
                 {

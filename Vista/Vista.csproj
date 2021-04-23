@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Controladores\Controladores.csproj" />
+    <ProjectReference Include="..\Datos\Datos.csproj" />
   </ItemGroup>
 
 </Project>

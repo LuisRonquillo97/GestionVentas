@@ -131,13 +131,22 @@ namespace Modelos.Catalogos
                 if (Validar(model,true)){
                     //primero buscamos el usuario. El usuariosEntity debe tener un ID
                     var usuario = Context.Usuarios.FirstOrDefault(f => f.Id.Value == model.Id.Value);
-                    //una vez obtenido el usuario, cambiamos sus datos menos el ID y el activo, ya que esos no se cambian aquí.
-                    usuario.Nombre = model.Nombre;
-                    usuario.NombreUsuario = model.NombreUsuario;
-                    usuario.Contraseña = model.Contraseña;
-                    //guardamos los cambios en BD.
-                    Context.SaveChanges();
-                    return true;
+                    if (usuario != null)
+                    {
+                        //una vez obtenido el usuario, cambiamos sus datos menos el ID y el activo, ya que esos no se cambian aquí.
+                        usuario.Nombre = model.Nombre;
+                        usuario.NombreUsuario = model.NombreUsuario;
+                        usuario.Contraseña = model.Contraseña;
+                        //guardamos los cambios en BD.
+                        Context.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        Error = new Exception("El usuario no se encontró.");
+                        return false;
+                    }
+                    
                 }
                 else
                 {
