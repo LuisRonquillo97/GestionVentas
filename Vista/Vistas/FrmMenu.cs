@@ -24,6 +24,7 @@ namespace Vista.Vistas
             tsmiClientes.Click += Tsmi_Click;
             tsmiArticulos.Click += Tsmi_Click;
             tsmiVentas.Click += Tsmi_Click;
+            tsmiVentas.Tag = "FrmPuntoVenta";
             //cuando se abra esta ventana, le decimos que se maximice.
             this.WindowState = FormWindowState.Maximized;
             formularios = new Dictionary<string, Form>();

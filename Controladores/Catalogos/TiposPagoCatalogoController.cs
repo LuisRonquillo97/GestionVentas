@@ -3,6 +3,7 @@ using Modelos.Catalogos;
 using Modelos.Entities;
 using Datos.Mapper;
 using System.Collections.Generic;
+using Datos.Helpers;
 
 namespace Controladores.Catalogos
 {
@@ -125,6 +126,10 @@ namespace Controladores.Catalogos
         public TiposPagoData BuscarPorId(int id)
         {
             return new TiposPagoMapper().Map(tiposPagoCatalogo.BuscarPorId(id));
+        }
+        public List<ComboBoxItem> ListarItemsComboBoxTipoPago()
+        {
+            return new ComboBoxItemHelperMapper().MapList(tiposPagoCatalogo.Listar());
         }
     }
 }

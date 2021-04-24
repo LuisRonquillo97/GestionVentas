@@ -30,13 +30,13 @@ namespace Vista.Vistas.Articulos
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.dgvArticulos = new System.Windows.Forms.DataGridView();
-            this.lblId = new System.Windows.Forms.Label();
-            this.txtId = new System.Windows.Forms.TextBox();
-            this.txtDescripcion = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnBuscar = new System.Windows.Forms.Button();
             this.btnSeleccionar = new System.Windows.Forms.Button();
+            this.btnBuscar = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtDescripcion = new System.Windows.Forms.TextBox();
+            this.txtId = new System.Windows.Forms.TextBox();
+            this.lblId = new System.Windows.Forms.Label();
+            this.dgvArticulos = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -67,47 +67,14 @@ namespace Vista.Vistas.Articulos
             this.splitContainer1.SplitterDistance = 120;
             this.splitContainer1.TabIndex = 0;
             // 
-            // dgvArticulos
+            // btnSeleccionar
             // 
-            this.dgvArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvArticulos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvArticulos.Location = new System.Drawing.Point(0, 0);
-            this.dgvArticulos.Name = "dgvArticulos";
-            this.dgvArticulos.RowTemplate.Height = 25;
-            this.dgvArticulos.Size = new System.Drawing.Size(368, 145);
-            this.dgvArticulos.TabIndex = 0;
-            // 
-            // lblId
-            // 
-            this.lblId.AutoSize = true;
-            this.lblId.Location = new System.Drawing.Point(77, 28);
-            this.lblId.Name = "lblId";
-            this.lblId.Size = new System.Drawing.Size(21, 15);
-            this.lblId.TabIndex = 0;
-            this.lblId.Text = "ID:";
-            // 
-            // txtId
-            // 
-            this.txtId.Location = new System.Drawing.Point(104, 24);
-            this.txtId.Name = "txtId";
-            this.txtId.Size = new System.Drawing.Size(55, 23);
-            this.txtId.TabIndex = 1;
-            // 
-            // txtDescripcion
-            // 
-            this.txtDescripcion.Location = new System.Drawing.Point(104, 53);
-            this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(156, 23);
-            this.txtDescripcion.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(26, 56);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 15);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Descripción:";
+            this.btnSeleccionar.Location = new System.Drawing.Point(185, 94);
+            this.btnSeleccionar.Name = "btnSeleccionar";
+            this.btnSeleccionar.Size = new System.Drawing.Size(75, 23);
+            this.btnSeleccionar.TabIndex = 5;
+            this.btnSeleccionar.Text = "Seleccionar";
+            this.btnSeleccionar.UseVisualStyleBackColor = true;
             // 
             // btnBuscar
             // 
@@ -118,14 +85,48 @@ namespace Vista.Vistas.Articulos
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
             // 
-            // btnSeleccionar
+            // label1
             // 
-            this.btnSeleccionar.Location = new System.Drawing.Point(185, 94);
-            this.btnSeleccionar.Name = "btnSeleccionar";
-            this.btnSeleccionar.Size = new System.Drawing.Size(75, 23);
-            this.btnSeleccionar.TabIndex = 5;
-            this.btnSeleccionar.Text = "Seleccionar";
-            this.btnSeleccionar.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(26, 56);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(72, 15);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Descripción:";
+            // 
+            // txtDescripcion
+            // 
+            this.txtDescripcion.Location = new System.Drawing.Point(104, 53);
+            this.txtDescripcion.Name = "txtDescripcion";
+            this.txtDescripcion.Size = new System.Drawing.Size(156, 23);
+            this.txtDescripcion.TabIndex = 2;
+            // 
+            // txtId
+            // 
+            this.txtId.Location = new System.Drawing.Point(104, 24);
+            this.txtId.Name = "txtId";
+            this.txtId.Size = new System.Drawing.Size(55, 23);
+            this.txtId.TabIndex = 1;
+            // 
+            // lblId
+            // 
+            this.lblId.AutoSize = true;
+            this.lblId.Location = new System.Drawing.Point(77, 28);
+            this.lblId.Name = "lblId";
+            this.lblId.Size = new System.Drawing.Size(21, 15);
+            this.lblId.TabIndex = 0;
+            this.lblId.Text = "ID:";
+            // 
+            // dgvArticulos
+            // 
+            this.dgvArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvArticulos.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvArticulos.Location = new System.Drawing.Point(0, 0);
+            this.dgvArticulos.Name = "dgvArticulos";
+            this.dgvArticulos.RowTemplate.Height = 25;
+            this.dgvArticulos.Size = new System.Drawing.Size(368, 145);
+            this.dgvArticulos.TabIndex = 0;
+            this.dgvArticulos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvArticulos_CellClick);
             // 
             // FrmSeleccionarArticulo
             // 

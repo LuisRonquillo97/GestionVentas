@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Datos.Interfaces;
+﻿using AutoMapper;
 using Datos.Data;
+using Datos.Interfaces;
 using Modelos.Entities;
-using AutoMapper;
+using System.Collections.Generic;
 
 namespace Datos.Mapper
 {

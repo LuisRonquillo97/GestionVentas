@@ -31,7 +31,11 @@ namespace Datos.Mapper
             var mapper = new AutoMapper.Mapper(config);
             return mapper.Map<EncabezadoNotaEntity, EncabezadosNotaData>(origen);
         }
-
+        public EncabezadoNotaEntity Map(EncabezadosNotaData origen)
+        {
+            var mapper = new AutoMapper.Mapper(config);
+            return mapper.Map<EncabezadosNotaData, EncabezadoNotaEntity>(origen);
+        }
         public List<EncabezadosNotaData> MapList(List<EncabezadoNotaEntity> origen)
         {
             var mapper = new AutoMapper.Mapper(config);

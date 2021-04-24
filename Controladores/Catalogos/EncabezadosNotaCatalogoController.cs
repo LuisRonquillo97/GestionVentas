@@ -53,6 +53,22 @@ namespace Controladores.Catalogos
                 return "Error al agregar Encabezado de nota :\n" + encabezadosCatalogo.Error.Message;
             }
         }
+        public string AgregarEntidad(EncabezadoNotaEntity encabezado)
+        {
+            
+            //el método agregar devuelve un booleano, que utilizamos para comparar directamente en el if.
+            if (encabezadosCatalogo.Agregar(encabezado))
+            {
+                //si es true, devolvemos el mensaje de que se agregó correctamente
+                return "Encabezado de nota agregado correctamente.";
+            }
+            else
+            {
+                //si es false, devolvemos el error que se generó.
+                //\n sirve para hacer un salto de línea.
+                return "Error al agregar Encabezado de nota :\n" + encabezadosCatalogo.Error.Message;
+            }
+        }
         /*
          * Modificar recibe desde el formulario todos los datos que pide el método.
          * manda a actualizar un registro en BD.
