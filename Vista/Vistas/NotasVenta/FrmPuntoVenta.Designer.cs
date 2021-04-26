@@ -30,6 +30,8 @@ namespace Vista.Vistas.NotasVenta
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.txtComentarios = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.cmbFormaPago = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.btnFinalizarVenta = new System.Windows.Forms.Button();
@@ -58,8 +60,6 @@ namespace Vista.Vistas.NotasVenta
             this.label1 = new System.Windows.Forms.Label();
             this.btnBuscarArticulo = new System.Windows.Forms.Button();
             this.dgvVentas = new System.Windows.Forms.DataGridView();
-            this.txtComentarios = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -112,6 +112,24 @@ namespace Vista.Vistas.NotasVenta
             this.splitContainer1.Size = new System.Drawing.Size(800, 450);
             this.splitContainer1.SplitterDistance = 260;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // txtComentarios
+            // 
+            this.txtComentarios.Enabled = false;
+            this.txtComentarios.Location = new System.Drawing.Point(77, 154);
+            this.txtComentarios.Multiline = true;
+            this.txtComentarios.Name = "txtComentarios";
+            this.txtComentarios.Size = new System.Drawing.Size(263, 55);
+            this.txtComentarios.TabIndex = 28;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(5, 157);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(78, 15);
+            this.label12.TabIndex = 27;
+            this.label12.Text = "Comentarios:";
             // 
             // cmbFormaPago
             // 
@@ -277,7 +295,7 @@ namespace Vista.Vistas.NotasVenta
             this.btnAgregarArticulo.TabIndex = 9;
             this.btnAgregarArticulo.Text = "Agregar Artículo";
             this.btnAgregarArticulo.UseVisualStyleBackColor = true;
-            this.btnAgregarArticulo.Click += new System.EventHandler(this.btnAgregarArticulo_Click);
+            this.btnAgregarArticulo.Click += new System.EventHandler(this.BtnAgregarArticulo_Click);
             // 
             // txtCantidad
             // 
@@ -371,24 +389,6 @@ namespace Vista.Vistas.NotasVenta
             this.dgvVentas.Size = new System.Drawing.Size(800, 186);
             this.dgvVentas.TabIndex = 0;
             // 
-            // txtComentarios
-            // 
-            this.txtComentarios.Enabled = false;
-            this.txtComentarios.Location = new System.Drawing.Point(77, 154);
-            this.txtComentarios.Multiline = true;
-            this.txtComentarios.Name = "txtComentarios";
-            this.txtComentarios.Size = new System.Drawing.Size(263, 55);
-            this.txtComentarios.TabIndex = 28;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(5, 157);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(72, 15);
-            this.label12.TabIndex = 27;
-            this.label12.Text = "Descripción:";
-            // 
             // FrmPuntoVenta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -396,7 +396,7 @@ namespace Vista.Vistas.NotasVenta
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.splitContainer1);
             this.Name = "FrmPuntoVenta";
-            this.Text = "FrmPuntoVenta";
+            this.Text = "Punto de venta";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);

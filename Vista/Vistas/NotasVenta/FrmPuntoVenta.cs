@@ -20,6 +20,7 @@ namespace Vista.Vistas.NotasVenta
         private readonly TiposPagoCatalogoController tiposPagoCat;
         private readonly ClientesCatalogoController clientesCat;
         private readonly List<DetalleNotaEntity> DetallesNotas;
+        private decimal Total = 0;
         #endregion
         public string Key { get; set; }
 
@@ -102,7 +103,7 @@ namespace Vista.Vistas.NotasVenta
         {
             LimpiarArticulo();
             LimpiarCliente();
-            EliminarArticulo(true);
+            EliminarArticulo(completo);
         }
         private void EliminarArticulo(bool completo = false)
         {
@@ -122,12 +123,51 @@ namespace Vista.Vistas.NotasVenta
         }
         private void CalcularTotal()
         {
-            decimal total = 0;
+            Total = 0;
             foreach (DetalleNotaEntity detalle in DetallesNotas)
             {
-                total += detalle.PrecioVenta.Value * detalle.Cantidad.Value;
+                Total += detalle.PrecioVenta.Value * detalle.Cantidad.Value;
             }
-            lblTotal.Text = "$" + total.ToString("###,###.##");
+            lblTotal.Text = "$" + Total.ToString("###,###.##");
+        }
+        private void FinalizarVenta()
+        {
+            var selectedItem = cmbFormaPago.SelectedItem as ComboBoxItem;
+            if (int.TryParse(txtIdCliente.Text, out int idCliente) && int.TryParse(selectedItem.Value.ToString(), out int idTipoPago))
+            {
+                EncabezadoNotaEntity encabezado = new EncabezadoNotaEntity()
+                {
+                    Comentario = txtComentarios.Text,
+                    DetalleNotas = DetallesNotas,
+                    IdCliente = idCliente,
+                    FechaCreado = DateTime.Now,
+                    IdTipoPago = idTipoPago,
+                    Status = "Creado",
+                };
+                MessageBox.Show(encabezadosCat.AgregarEntidad(encabezado));
+                LimpiarTodo(true);
+            }
+        }
+        private bool ValidarDatos()
+        {
+            CalcularTotal();
+            ComboBoxItem selectedItem = cmbFormaPago.SelectedItem as ComboBoxItem;
+            if (Total <= 0)
+            {
+                MessageBox.Show("El total no puede ser menor a cero.", "Alerta de venta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (selectedItem is null)
+            {
+                MessageBox.Show("Debe seleccionar un modo de venta.", "Alerta de venta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (int.TryParse(txtIdCliente.Text, out int id) == false)
+            {
+                MessageBox.Show("Debe seleccionar un cliente.", "Alerta de venta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
         }
         #endregion
         #region Eventos del form
@@ -139,7 +179,7 @@ namespace Vista.Vistas.NotasVenta
 
         }
 
-        private void btnAgregarArticulo_Click(object sender, EventArgs e)
+        private void BtnAgregarArticulo_Click(object sender, EventArgs e)
         {
             if(int.TryParse(txtCantidad.Text, out int cantidad))
             {
@@ -176,22 +216,25 @@ namespace Vista.Vistas.NotasVenta
 
         private void BtnFinalizarVenta_Click(object sender, EventArgs e)
         {
-            var selectedItem = cmbFormaPago.SelectedItem as ComboBoxItem;
-            if (int.TryParse(txtIdCliente.Text, out int idCliente) && int.TryParse(selectedItem.Value.ToString(),out int idTipoPago))
+            if (ValidarDatos())
             {
-                EncabezadoNotaEntity encabezado = new EncabezadoNotaEntity()
+                var selectedItem = cmbFormaPago.SelectedItem as ComboBoxItem;
+                if (selectedItem.Text.Equals("Efectivo", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    Comentario = txtComentarios.Text,
-                    DetalleNotas = DetallesNotas,
-                    IdCliente = idCliente,
-                    FechaCreado = DateTime.Now,
-                    IdTipoPago = idTipoPago,
-                    Status = "Creado",
-                };
-                MessageBox.Show(encabezadosCat.AgregarEntidad(encabezado));
-                LimpiarTodo(true);
+                    FrmCambio cambio = new FrmCambio(Total);
+                    cambio.FormClosing += Cambio_FormClosing;
+                    cambio.ShowDialog();
+                }
+                else 
+                {
+                    FinalizarVenta();
+                }
             }
-            
+        }
+
+        private void Cambio_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            FinalizarVenta();
         }
 
         private void BtnBuscarCliente_Click(object sender, EventArgs e)
