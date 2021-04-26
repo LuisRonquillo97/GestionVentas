@@ -1,5 +1,5 @@
 ﻿
-namespace Vista.Vistas.NotasVenta
+namespace Vista.Vistas.PuntoVenta
 {
     partial class FrmPuntoVenta
     {

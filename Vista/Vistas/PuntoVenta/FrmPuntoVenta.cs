@@ -10,7 +10,7 @@ using Vista.Interfaces;
 using Vista.Vistas.Articulos;
 using Vista.Vistas.Clientes;
 
-namespace Vista.Vistas.NotasVenta
+namespace Vista.Vistas.PuntoVenta
 {
     public partial class FrmPuntoVenta : Form,IFormClosable
     {
@@ -151,18 +151,19 @@ namespace Vista.Vistas.NotasVenta
         private bool ValidarDatos()
         {
             CalcularTotal();
-            ComboBoxItem selectedItem = cmbFormaPago.SelectedItem as ComboBoxItem;
             if (Total <= 0)
             {
                 MessageBox.Show("El total no puede ser menor a cero.", "Alerta de venta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
-            if (selectedItem is null)
+
+            if (!(cmbFormaPago.SelectedItem is ComboBoxItem))
             {
                 MessageBox.Show("Debe seleccionar un modo de venta.", "Alerta de venta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
-            if (int.TryParse(txtIdCliente.Text, out int id) == false)
+
+            if (int.TryParse(txtIdCliente.Text, out _) == false)
             {
                 MessageBox.Show("Debe seleccionar un cliente.", "Alerta de venta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;

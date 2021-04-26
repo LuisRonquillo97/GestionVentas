@@ -4,7 +4,7 @@ using Modelos.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace Modelos.Catalogos
 {
@@ -42,7 +42,7 @@ namespace Modelos.Catalogos
 
         public EncabezadoNotaEntity BuscarPorId(int id)
         {
-            return Context.EncabezadosNota.FirstOrDefault(x => x.Id == id);
+            return Context.EncabezadosNota.Include(x=>x.Cliente).Include(x=>x.TipoPago).FirstOrDefault(x => x.Id == id);
         }
 
         public bool Eliminar(int Id)
@@ -64,11 +64,11 @@ namespace Modelos.Catalogos
         {
             if (filtros == null)
             {
-                return Context.EncabezadosNota.ToList();
+                return Context.EncabezadosNota.Include(x=>x.Cliente).Include(x=>x.TipoPago).ToList();
             }
             else
             {
-                IQueryable<EncabezadoNotaEntity> encabezadosNota = Context.EncabezadosNota;
+                IQueryable<EncabezadoNotaEntity> encabezadosNota = Context.EncabezadosNota.Include(x=>x.Cliente).Include(x => x.TipoPago);
                 if (filtros.Id.HasValue) encabezadosNota = encabezadosNota.Where(x => x.Id.Value == filtros.Id.Value);
                 if (!string.IsNullOrEmpty(filtros.Comentario)) encabezadosNota = encabezadosNota.Where(x => x.Comentario.Contains(filtros.Comentario));
                 if (filtros.FechaCreado.HasValue) encabezadosNota = encabezadosNota.Where(x => x.FechaCreado.Value.Date==filtros.FechaCreado.Value.Date);

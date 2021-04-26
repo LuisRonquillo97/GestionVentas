@@ -22,11 +22,12 @@ namespace Controladores.Catalogos
          * Recordemos que los método de UsuariosCatalogo utilizan un UsuariosEntity para funcionar, por eso existe este método.
          * nota: el poner ? al final de int, significa que ese int puede o no tener un valor.
          */
-        public EncabezadoNotaEntity GenerarEntidad(string id, string comentario, DateTime fechaCreado, string idCliente, string idTipoPago, string status)
+        public EncabezadoNotaEntity GenerarEntidad(string id, string comentario, DateTime? fechaCreado, string idCliente, string idTipoPago, string status)
         {
 
-            EncabezadoNotaEntity encabezado = new EncabezadoNotaEntity() {Comentario=comentario,FechaCreado=fechaCreado, Status=status };
+            EncabezadoNotaEntity encabezado = new EncabezadoNotaEntity() {Comentario=comentario, Status=status };
             if (int.TryParse(id, out int nid)) encabezado.Id = nid;
+            if (fechaCreado.HasValue) encabezado.FechaCreado = fechaCreado.Value;
             if (int.TryParse(idCliente, out int nidCliente)) encabezado.IdCliente = nidCliente;
             if (int.TryParse(idTipoPago, out int nidTipoPago)) encabezado.IdTipoPago = nidTipoPago;
             return encabezado;
@@ -120,14 +121,23 @@ namespace Controladores.Catalogos
          * devuelve un listado de usuarios activos que obtiene desde BD.
          * también tiene la opción de filtrar si se pasan los parámetros correspondientes.
          */
-        public List<EncabezadosNotaData> Listar(string id, string comentario, DateTime? fechaCreado, string idCliente, string idTipoPago, string status)
+        public List<EncabezadoNotaEntity> Listar(string id, string comentario, DateTime? fechaCreado, string idCliente, string idTipoPago, string status)
         {
             //primero revisamos que al menos uno de todos los parámetros que podemos obtener desde el form tenga algún dato
             //para saber si debemos filtrar algo.
-            if (!string.IsNullOrEmpty(id) || !string.IsNullOrEmpty(comentario) || !string.IsNullOrEmpty(idCliente) || !string.IsNullOrEmpty(idTipoPago) || !string.IsNullOrEmpty(status) || fechaCreado.HasValue)
+            if (!string.IsNullOrEmpty(id) || !string.IsNullOrEmpty(comentario) || !string.IsNullOrEmpty(idCliente) || !string.IsNullOrEmpty(idTipoPago) || !string.IsNullOrEmpty(status) )
             {
+                EncabezadoNotaEntity encabezado;
+                if (fechaCreado.HasValue)
+                {
+                    encabezado = GenerarEntidad(id, comentario, fechaCreado.Value, idCliente, idTipoPago, status);
+                }
+                else
+                {
+                    encabezado = GenerarEntidad(id, comentario, null, idCliente, idTipoPago, status);
+                }
                 //si alguno tiene valor, creamos el UsuarioEntity.
-                EncabezadoNotaEntity encabezado = GenerarEntidad(id, comentario, fechaCreado.Value, idCliente, idTipoPago, status);
+                
                 /*
                  * recordemos que en MVC, el modelo, que es de donde devolvemos los datos, no puede interactual con la vista
                  * que es el form.
@@ -137,12 +147,12 @@ namespace Controladores.Catalogos
                  * La explicación de cómo funciona estará en la clase ArticuloMapper.
                  * pasamos el UsuarioEntity al método listar, y mapeamos el resultado a una lista de ArticuloData.
                  */
-                return new EncabezadosNotaMapper().MapList(encabezadosCatalogo.Listar(encabezado));
+                return encabezadosCatalogo.Listar(encabezado);
             }
             else
             {
                 //si no se tienen datos para filtrar, obtenemos la lista de los usuarios activos.
-                return new EncabezadosNotaMapper().MapList(encabezadosCatalogo.Listar());
+                return encabezadosCatalogo.Listar();
             }
 
         }
@@ -151,9 +161,9 @@ namespace Controladores.Catalogos
          * como la vista no puede interactuar con el modelo, regresamos un UsuariosData a la vista, apoyados
          * de AutoMapper.
          */
-        public EncabezadosNotaData BuscarPorId(int id)
+        public EncabezadoNotaEntity BuscarPorId(int id)
         {
-            return new EncabezadosNotaMapper().Map(encabezadosCatalogo.BuscarPorId(id));
+            return encabezadosCatalogo.BuscarPorId(id);
         }
     }
 }

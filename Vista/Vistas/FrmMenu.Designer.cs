@@ -33,10 +33,10 @@ namespace Vista.Vistas
             this.tsmiArticulos = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiClientes = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiNotas = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiVentas = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiEncabezados = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDetalles = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiUsuario = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiVentas = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,11 +78,17 @@ namespace Vista.Vistas
             this.tsmiNotas.Size = new System.Drawing.Size(98, 20);
             this.tsmiNotas.Text = "Notas de venta";
             // 
+            // tsmiVentas
+            // 
+            this.tsmiVentas.Name = "tsmiVentas";
+            this.tsmiVentas.Size = new System.Drawing.Size(142, 22);
+            this.tsmiVentas.Text = "Ventas";
+            // 
             // tsmiEncabezados
             // 
             this.tsmiEncabezados.Name = "tsmiEncabezados";
             this.tsmiEncabezados.Size = new System.Drawing.Size(142, 22);
-            this.tsmiEncabezados.Tag = "FrmEncabezadoNota";
+            this.tsmiEncabezados.Tag = "FrmEncabezadosNota";
             this.tsmiEncabezados.Text = "Encabezados";
             // 
             // tsmiDetalles
@@ -98,12 +104,6 @@ namespace Vista.Vistas
             this.tsmiUsuario.Size = new System.Drawing.Size(64, 20);
             this.tsmiUsuario.Tag = "FrmUsuarios";
             this.tsmiUsuario.Text = "Usuarios";
-            // 
-            // tsmiVentas
-            // 
-            this.tsmiVentas.Name = "tsmiVentas";
-            this.tsmiVentas.Size = new System.Drawing.Size(142, 22);
-            this.tsmiVentas.Text = "Ventas";
             // 
             // FrmMenu
             // 

@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Vista.Vistas.NotasVenta
+namespace Vista.Vistas.PuntoVenta
 {
     public partial class FrmCambio : Form
     {
