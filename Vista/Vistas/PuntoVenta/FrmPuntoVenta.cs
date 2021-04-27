@@ -1,6 +1,7 @@
 ﻿using Controladores.Catalogos;
 using Datos.Data;
 using Datos.Helpers;
+using Datos.Mapper;
 using Modelos.Entities;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Vista.Vistas.PuntoVenta
         private readonly EncabezadosNotaCatalogoController encabezadosCat;
         private readonly TiposPagoCatalogoController tiposPagoCat;
         private readonly ClientesCatalogoController clientesCat;
-        private readonly List<DetalleNotaEntity> DetallesNotas;
+        private readonly List<DgvPuntoVenta> DetallesNotas;
         private decimal Total = 0;
         #endregion
         public string Key { get; set; }
@@ -31,7 +32,7 @@ namespace Vista.Vistas.PuntoVenta
             tiposPagoCat = new TiposPagoCatalogoController();
             clientesCat = new ClientesCatalogoController();
             Key = "Ventas";
-            DetallesNotas = new List<DetalleNotaEntity>();
+            DetallesNotas = new List<DgvPuntoVenta>();
             InitializeComponent();
             SetDgv();
             SetCmbTipoPago();
@@ -69,14 +70,6 @@ namespace Vista.Vistas.PuntoVenta
         {
             dgvVentas.DataSource = null;
             dgvVentas.DataSource = DetallesNotas;
-            if (dgvVentas.RowCount > 0)
-            {
-                dgvVentas.Columns["Activo"].Visible = false;
-                dgvVentas.Columns["Articulo"].Visible = false;
-                dgvVentas.Columns["EncabezadoNota"].Visible = false;
-                dgvVentas.Columns["Id"].Visible = false;
-                dgvVentas.Columns["IdEncabezadoNota"].Visible = false;
-            }
             CalcularTotal();
         }
         private void SetCmbTipoPago()
@@ -124,9 +117,9 @@ namespace Vista.Vistas.PuntoVenta
         private void CalcularTotal()
         {
             Total = 0;
-            foreach (DetalleNotaEntity detalle in DetallesNotas)
+            foreach (DgvPuntoVenta detalle in DetallesNotas)
             {
-                Total += detalle.PrecioVenta.Value * detalle.Cantidad.Value;
+                Total += detalle.Total;
             }
             lblTotal.Text = "$" + Total.ToString("###,###.##");
         }
@@ -135,16 +128,15 @@ namespace Vista.Vistas.PuntoVenta
             var selectedItem = cmbFormaPago.SelectedItem as ComboBoxItem;
             if (int.TryParse(txtIdCliente.Text, out int idCliente) && int.TryParse(selectedItem.Value.ToString(), out int idTipoPago))
             {
-                EncabezadoNotaEntity encabezado = new EncabezadoNotaEntity()
+                EncabezadosNotaData encabezado = new EncabezadosNotaData()
                 {
                     Comentario = txtComentarios.Text,
-                    DetalleNotas = DetallesNotas,
                     IdCliente = idCliente,
                     FechaCreado = DateTime.Now,
                     IdTipoPago = idTipoPago,
                     Status = "Creado",
                 };
-                MessageBox.Show(encabezadosCat.AgregarEntidad(encabezado));
+                MessageBox.Show(encabezadosCat.AgregarEntidad(encabezado,DetallesNotas));
                 LimpiarTodo(true);
             }
         }
@@ -184,20 +176,21 @@ namespace Vista.Vistas.PuntoVenta
         {
             if(int.TryParse(txtCantidad.Text, out int cantidad))
             {
-                var detalleNota = DetallesNotas.FirstOrDefault(x => x.IdArticulo.Value.ToString() == txtIdArticulo.Text);
+                var detalleNota = DetallesNotas.FirstOrDefault(x => x.IdArticulo.ToString() == txtIdArticulo.Text);
                 if (detalleNota!=null)
                 {
                     detalleNota.Cantidad = cantidad;
                 }
                 else
                 {
-                    DetalleNotaEntity data = new DetalleNotaEntity()
+                    DgvPuntoVenta data = new DgvPuntoVenta()
                     {
                         Cantidad = cantidad,
                         IdArticulo = Convert.ToInt32(txtIdArticulo.Text),
+                        Articulo = txtDescripcionArticulo.Text,
                         PrecioVenta = Convert.ToDecimal(txtPrecioUnitario.Text),
-                        Activo=true,
                     };
+                    data.Total = data.Cantidad * data.PrecioVenta;
                     DetallesNotas.Add(data);
                 }
                 SetDgv();

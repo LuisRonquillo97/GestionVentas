@@ -69,6 +69,23 @@ namespace Controladores.Catalogos
                 return "Error al agregar Encabezado de nota :\n" + encabezadosCatalogo.Error.Message;
             }
         }
+        public string AgregarEntidad(EncabezadosNotaData encabezadoData, List<DgvPuntoVenta> detallesNotasDgv)
+        {
+            EncabezadoNotaEntity encabezado = new EncabezadosNotaMapper().Map(encabezadoData);
+            encabezado.DetalleNotas = new DetallesNotaMapper().MapList(detallesNotasDgv);
+            //el método agregar devuelve un booleano, que utilizamos para comparar directamente en el if.
+            if (encabezadosCatalogo.Agregar(encabezado))
+            {
+                //si es true, devolvemos el mensaje de que se agregó correctamente
+                return "Encabezado de nota agregado correctamente.";
+            }
+            else
+            {
+                //si es false, devolvemos el error que se generó.
+                //\n sirve para hacer un salto de línea.
+                return "Error al agregar Encabezado de nota :\n" + encabezadosCatalogo.Error.Message;
+            }
+        }
         /*
          * Modificar recibe desde el formulario todos los datos que pide el método.
          * manda a actualizar un registro en BD.
@@ -154,7 +171,7 @@ namespace Controladores.Catalogos
          */
         public List<DgvEncabezadoNota> ListarDgvEncabezadoNota(string id, string comentario, DateTime? fechaCreado, string idCliente, string idTipoPago, string status)
         {
-            return new EncabezadosNotaMapper().MapDatagrid(Listar(id, comentario, fechaCreado, idCliente, idTipoPago, status));
+            return new EncabezadosNotaMapper().MapDatagridEncabezado(Listar(id, comentario, fechaCreado, idCliente, idTipoPago, status));
         }
 
         public List<EncabezadosNotaData> ListarEncabezadoNotaData(string id, string comentario, DateTime? fechaCreado, string idCliente, string idTipoPago, string status)

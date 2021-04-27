@@ -9,7 +9,7 @@ namespace Datos.Mapper
     public class EncabezadosNotaMapper : IMapper<EncabezadosNotaData, EncabezadoNotaEntity>
     {
         public IConfigurationProvider config = new MapperConfiguration(cfg =>
-           cfg.CreateMap<EncabezadoNotaEntity, EncabezadosNotaData>()
+           cfg.CreateMap<EncabezadosNotaData, EncabezadoNotaEntity > ()
             .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
             .ForMember(dest => dest.FechaCreado, act => act.MapFrom(src => src.FechaCreado))
             .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
@@ -17,13 +17,6 @@ namespace Datos.Mapper
             .ForMember(dest => dest.IdTipoPago, act => act.MapFrom(src => src.IdTipoPago))
             .ForMember(dest => dest.Status, act => act.MapFrom(src => src.Status))
             .ForMember(dest => dest.Comentario, act => act.MapFrom(src => src.Comentario))
-            .ForPath(dest => dest.Cliente.Id, act => act.MapFrom(src => src.Cliente.Id))
-            .ForPath(dest => dest.Cliente.Direccion, act => act.MapFrom(src => src.Cliente.Direccion))
-            .ForPath(dest => dest.Cliente.NombreCompleto, act => act.MapFrom(src => src.Cliente.NombreCompleto))
-            .ForPath(dest => dest.Cliente.Rfc, act => act.MapFrom(src => src.Cliente.Rfc))
-            .ForPath(dest => dest.DetalleNotas, act => act.MapFrom(src => src.DetalleNotas))
-            .ForPath(dest => dest.TipoPago.Id, act => act.MapFrom(src => src.TipoPago.Id))
-            .ForPath(dest => dest.TipoPago.Descripcion, act => act.MapFrom(src => src.TipoPago.Descripcion))
         );
         public IConfigurationProvider datagridConfig = new MapperConfiguration(mcf =>
             mcf.CreateMap<EncabezadoNotaEntity, DgvEncabezadoNota>()
@@ -51,7 +44,7 @@ namespace Datos.Mapper
             AutoMapper.Mapper mapper = new AutoMapper.Mapper(config);
             return mapper.Map<List<EncabezadoNotaEntity>, List<EncabezadosNotaData>>(origen);
         }
-        public List<DgvEncabezadoNota> MapDatagrid(List<EncabezadoNotaEntity> origen)
+        public List<DgvEncabezadoNota> MapDatagridEncabezado(List<EncabezadoNotaEntity> origen)
         {
             AutoMapper.Mapper mapper = new AutoMapper.Mapper(datagridConfig);
             return mapper.Map<List<EncabezadoNotaEntity>, List<DgvEncabezadoNota>>(origen);
