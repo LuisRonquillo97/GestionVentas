@@ -132,6 +132,24 @@ namespace Controladores.Catalogos
             }
 
         }
+        public List<DetallesNotaData> ListarDetallePorEncabezado(string idEncabezado)
+        {
+            List<DetallesNotaData> detalles = new List<DetallesNotaData>();
+            if(int.TryParse(idEncabezado, out int id))
+            {
+                detalles = Listar(idEncabezado, "", "", "", "");
+            }
+            return detalles;
+        }
+        public decimal TotalDetalle(string idEncabezado)
+        {
+            decimal total = 0;
+            foreach (DetallesNotaData detalle in ListarDetallePorEncabezado(idEncabezado))
+            {
+                total += detalle.PrecioVenta.Value;
+            }
+            return total;
+        }
         /*
          * Buscamos un usuario por su ID y lo devolvemos
          * como la vista no puede interactuar con el modelo, regresamos un UsuariosData a la vista, apoyados

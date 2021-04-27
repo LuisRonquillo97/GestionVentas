@@ -1,15 +1,11 @@
 ﻿using Controladores.Catalogos;
+using Datos.Helpers;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 using Vista.Interfaces;
-using Datos.Helpers;
 using Vista.Vistas.DetallesNotaVenta;
-using System.Linq;
 
 namespace Vista.Vistas.EncabezadosNotaVenta
 {
@@ -18,11 +14,13 @@ namespace Vista.Vistas.EncabezadosNotaVenta
         public string Key { get; set; }
         private readonly TiposPagoCatalogoController tiposPagoCat;
         private readonly EncabezadosNotaCatalogoController encabezadosCat;
+        private readonly DetallesNotaCatalogoController detallesCat;
         public FrmEncabezadosNota()
         {
             Key = "EncabezadoNota";
             tiposPagoCat = new TiposPagoCatalogoController();
             encabezadosCat = new EncabezadosNotaCatalogoController();
+            detallesCat = new DetallesNotaCatalogoController();
             InitializeComponent();
             ModoBusqueda();
             SetCmbTipoPago();
@@ -38,6 +36,7 @@ namespace Vista.Vistas.EncabezadosNotaVenta
             btnBuscar.Enabled = false;
             btnDetalles.Enabled = true;
             btnActualizar.Enabled = true;
+            cmbTipoPago.Enabled = false;
         }
         public void ModoBusqueda()
         {
@@ -48,12 +47,17 @@ namespace Vista.Vistas.EncabezadosNotaVenta
             btnBuscar.Enabled = true;
             btnDetalles.Enabled = false;
             btnActualizar.Enabled = false;
+            cmbTipoPago.Enabled = true;
         }
         private void SetCmbTipoPago()
         {
             cmbTipoPago.Items.Clear();
             var comboBoxItems = tiposPagoCat.ListarItemsComboBoxTipoPago();
             cmbTipoPago.Items.AddRange(comboBoxItems.ToArray());
+        }
+        private ComboBoxItem GetCmbTipoPago()
+        {
+            return cmbTipoPago.SelectedItem as ComboBoxItem;
         }
         private void LimpiarCampos()
         {
@@ -63,38 +67,25 @@ namespace Vista.Vistas.EncabezadosNotaVenta
             txtIdCliente.Text = "";
             dtpFechaCreado.Value = DateTime.Now;
             lblTotal.Text = "$----.--";
+            cmbStatus.SelectedItem = null;
             SetCmbTipoPago();
         }
         private void SetDgv()
         {
+            DateTime? fecha = null;
+            ComboBoxItem comboBoxItem = GetCmbTipoPago();
+            string cmbitemId = "";
             dgvEncabezados.DataSource = null;
 
-            dgvEncabezados.DataSource = MapDatagrid();
-        }
-        private List<DgvValues> MapDatagrid()
-        {
-            List<DgvValues> datagridValues = new List<DgvValues>();
-            DateTime? fechaCreado = dtpFechaCreado.Value;
-            if (dtpFechaCreado.Value.Date == DateTime.Now.Date)
+            if (dtpFechaCreado.Value.Date != DateTime.Now.Date)
             {
-                fechaCreado = null;
+                fecha = dtpFechaCreado.Value;
             }
-            var datosEncabezado = encabezadosCat.Listar(txtId.Text, txtComentario.Text, fechaCreado, txtIdCliente.Text, cmbTipoPago.SelectedItem is ComboBoxItem selectedCombo ? selectedCombo.Value.ToString() : "", cmbStatus.SelectedItem != null ? cmbStatus.SelectedItem.ToString() : "");
-            foreach (var dato in datosEncabezado)
+            if (comboBoxItem != null)
             {
-                datagridValues.Add(new DgvValues
-                {
-                    Id = dato.Id.Value,
-                    IdCliente = dato.IdCliente.Value,
-                    Cliente = dato.Cliente.NombreCompleto,
-                    Comentario = dato.Comentario,
-                    IdTipoPago = dato.IdTipoPago.Value,
-                    Status = dato.Status,
-                    TipoPago = dato.TipoPago.Descripcion,
-                    FechaCreado=dato.FechaCreado.Value
-                });
+                cmbitemId = comboBoxItem.Value.ToString();
             }
-            return datagridValues;
+            dgvEncabezados.DataSource = encabezadosCat.ListarDgvEncabezadoNota(txtId.Text, txtComentario.Text, fecha, txtIdCliente.Text, cmbitemId, cmbStatus.SelectedItem != null ? cmbStatus.SelectedItem.ToString() : "");
         }
         #endregion
 
@@ -102,17 +93,23 @@ namespace Vista.Vistas.EncabezadosNotaVenta
         private void DgvEncabezados_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow row = dgvEncabezados.Rows[e.RowIndex];
+            List<ComboBoxItem> itemsCombo = new List<ComboBoxItem>();
+            foreach (ComboBoxItem item in cmbTipoPago.Items)
+            {
+                itemsCombo.Add(item);
+            }
             txtId.Text = row.Cells["Id"].Value.ToString();
             txtClienteNombre.Text = row.Cells["Cliente"].Value.ToString();
             txtComentario.Text = row.Cells["Comentario"].Value.ToString();
             txtIdCliente.Text = row.Cells["IdCliente"].Value.ToString();
             cmbStatus.SelectedItem = row.Cells["Status"].Value.ToString();
-            cmbTipoPago.SelectedItem = cmbTipoPago.Items.IndexOf(new ComboBoxItem { Text = row.Cells["TipoPago"].Value.ToString(), Value = Convert.ToInt32(row.Cells["IdTipoPago"]) });
-            if(DateTime.TryParse(row.Cells["FechaCreado"].Value.ToString(),out DateTime fechaCreado))
+            cmbTipoPago.SelectedIndex = cmbTipoPago.Items.IndexOf(itemsCombo.First(x => x.Value.ToString() == row.Cells["IdTipoPago"].Value.ToString()));
+            if (DateTime.TryParse(row.Cells["FechaCreado"].Value.ToString(), out DateTime fechaCreado))
             {
                 dtpFechaCreado.Value = fechaCreado;
             }
             ModoEdicion();
+            lblTotal.Text = $"${detallesCat.TotalDetalle(txtId.Text):###,###,###.##}";
         }
 
         private void BtnBuscar_Click(object sender, EventArgs e)
@@ -133,27 +130,19 @@ namespace Vista.Vistas.EncabezadosNotaVenta
         private void BtnActualizar_Click(object sender, EventArgs e)
         {
             ComboBoxItem selectedCombo = cmbTipoPago.SelectedItem as ComboBoxItem;
-            MessageBox.Show(encabezadosCat.Modificar(txtId.Text, txtComentario.Text, dtpFechaCreado.Value, txtIdCliente.Text, selectedCombo.Value.ToString(), cmbStatus.SelectedText), "Aviso");
+            MessageBox.Show(encabezadosCat.Modificar(txtId.Text, txtComentario.Text, dtpFechaCreado.Value, txtIdCliente.Text, selectedCombo.Value.ToString(), cmbStatus.SelectedItem.ToString()), "Aviso");
+            LimpiarCampos();
+            SetDgv();
         }
 
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
             LimpiarCampos();
             ModoBusqueda();
+            SetDgv();
         }
         #endregion
 
 
     }
-}
-internal class DgvValues
-{
-    public DateTime FechaCreado { get; set; }
-    public int Id { get; set; }
-    public int IdCliente { get; set; }
-    public string Cliente { get; set; }
-    public string Status { get; set; }
-    public int IdTipoPago { get; set; }
-    public string TipoPago { get; set; }
-    public string Comentario { get; set; }
 }

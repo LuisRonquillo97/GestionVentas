@@ -4,7 +4,6 @@ using Modelos.Catalogos;
 using Modelos.Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Controladores.Catalogos
 {
@@ -25,7 +24,7 @@ namespace Controladores.Catalogos
         public EncabezadoNotaEntity GenerarEntidad(string id, string comentario, DateTime? fechaCreado, string idCliente, string idTipoPago, string status)
         {
 
-            EncabezadoNotaEntity encabezado = new EncabezadoNotaEntity() {Comentario=comentario, Status=status };
+            EncabezadoNotaEntity encabezado = new EncabezadoNotaEntity() { Comentario = comentario, Status = status };
             if (int.TryParse(id, out int nid)) encabezado.Id = nid;
             if (fechaCreado.HasValue) encabezado.FechaCreado = fechaCreado.Value;
             if (int.TryParse(idCliente, out int nidCliente)) encabezado.IdCliente = nidCliente;
@@ -40,7 +39,7 @@ namespace Controladores.Catalogos
         {
             //necesitamos un usuarioEntity para utilizar el método agregar, así que lo generamos.
             //como es agregar y el ID es autoincremental en BD, pasamos un nulo en vez de dar un ID.
-            EncabezadoNotaEntity articulo = GenerarEntidad(null, comentario, fechaCreado, idCliente, idTipoPago,status);
+            EncabezadoNotaEntity articulo = GenerarEntidad(null, comentario, fechaCreado, idCliente, idTipoPago, status);
             //el método agregar devuelve un booleano, que utilizamos para comparar directamente en el if.
             if (encabezadosCatalogo.Agregar(articulo))
             {
@@ -56,7 +55,7 @@ namespace Controladores.Catalogos
         }
         public string AgregarEntidad(EncabezadoNotaEntity encabezado)
         {
-            
+
             //el método agregar devuelve un booleano, que utilizamos para comparar directamente en el if.
             if (encabezadosCatalogo.Agregar(encabezado))
             {
@@ -125,19 +124,11 @@ namespace Controladores.Catalogos
         {
             //primero revisamos que al menos uno de todos los parámetros que podemos obtener desde el form tenga algún dato
             //para saber si debemos filtrar algo.
-            if (!string.IsNullOrEmpty(id) || !string.IsNullOrEmpty(comentario) || !string.IsNullOrEmpty(idCliente) || !string.IsNullOrEmpty(idTipoPago) || !string.IsNullOrEmpty(status) )
+            if (!string.IsNullOrEmpty(id) || !string.IsNullOrEmpty(comentario) || !string.IsNullOrEmpty(idCliente) || !string.IsNullOrEmpty(idTipoPago) || !string.IsNullOrEmpty(status) || fechaCreado.HasValue)
             {
-                EncabezadoNotaEntity encabezado;
-                if (fechaCreado.HasValue)
-                {
-                    encabezado = GenerarEntidad(id, comentario, fechaCreado.Value, idCliente, idTipoPago, status);
-                }
-                else
-                {
-                    encabezado = GenerarEntidad(id, comentario, null, idCliente, idTipoPago, status);
-                }
+                EncabezadoNotaEntity encabezado = GenerarEntidad(id, comentario, fechaCreado.Value, idCliente, idTipoPago, status);
                 //si alguno tiene valor, creamos el UsuarioEntity.
-                
+
                 /*
                  * recordemos que en MVC, el modelo, que es de donde devolvemos los datos, no puede interactual con la vista
                  * que es el form.
@@ -161,6 +152,15 @@ namespace Controladores.Catalogos
          * como la vista no puede interactuar con el modelo, regresamos un UsuariosData a la vista, apoyados
          * de AutoMapper.
          */
+        public List<DgvEncabezadoNota> ListarDgvEncabezadoNota(string id, string comentario, DateTime? fechaCreado, string idCliente, string idTipoPago, string status)
+        {
+            return new EncabezadosNotaMapper().MapDatagrid(Listar(id, comentario, fechaCreado, idCliente, idTipoPago, status));
+        }
+
+        public List<EncabezadosNotaData> ListarEncabezadoNotaData(string id, string comentario, DateTime? fechaCreado, string idCliente, string idTipoPago, string status)
+        {
+            return new EncabezadosNotaMapper().MapList(Listar(id, comentario, fechaCreado, idCliente, idTipoPago, status));
+        }
         public EncabezadoNotaEntity BuscarPorId(int id)
         {
             return encabezadosCatalogo.BuscarPorId(id);
