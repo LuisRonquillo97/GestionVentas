@@ -115,7 +115,6 @@ namespace Vista.Vistas.PuntoVenta
             // 
             // txtComentarios
             // 
-            this.txtComentarios.Enabled = false;
             this.txtComentarios.Location = new System.Drawing.Point(77, 154);
             this.txtComentarios.Multiline = true;
             this.txtComentarios.Name = "txtComentarios";
@@ -388,6 +387,7 @@ namespace Vista.Vistas.PuntoVenta
             this.dgvVentas.RowTemplate.Height = 25;
             this.dgvVentas.Size = new System.Drawing.Size(800, 186);
             this.dgvVentas.TabIndex = 0;
+            this.dgvVentas.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvVentas_CellDoubleClick);
             // 
             // FrmPuntoVenta
             // 
@@ -410,7 +410,6 @@ namespace Vista.Vistas.PuntoVenta
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.DataGridView dgvVentas;
         private System.Windows.Forms.Button btnBuscarArticulo;
         private System.Windows.Forms.TextBox txtDescripcionArticulo;
         private System.Windows.Forms.Label label2;
@@ -440,5 +439,6 @@ namespace Vista.Vistas.PuntoVenta
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtComentarios;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.DataGridView dgvVentas;
     }
 }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Datos.Data
+﻿namespace Datos.Data
 {
-    public class DgvPuntoVenta
+    public class DgvDetalleNota
     {
+        public int IdDetalleNota { get; set; }
         public int IdArticulo { get; set; }
         public string Articulo { get; set; }
         public decimal PrecioVenta { get; set; }

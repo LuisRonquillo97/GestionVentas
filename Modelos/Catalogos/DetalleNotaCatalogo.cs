@@ -1,4 +1,5 @@
-﻿using Modelos.Contexts;
+﻿using Microsoft.EntityFrameworkCore;
+using Modelos.Contexts;
 using Modelos.Entities;
 using Modelos.Interfaces;
 using System;
@@ -68,7 +69,7 @@ namespace Modelos.Catalogos
             }
             else
             {
-                IQueryable<DetalleNotaEntity> DetallesNota = Context.DetallesNota.Where(x => x.Activo);
+                IQueryable<DetalleNotaEntity> DetallesNota = Context.DetallesNota.Include(x=>x.Articulo).Where(x => x.Activo);
                 if (filtros.Id.HasValue) DetallesNota = DetallesNota.Where(x => x.Id.Value == filtros.Id.Value);
                 if (filtros.Cantidad.HasValue) DetallesNota = DetallesNota.Where(x => x.Cantidad.Value == filtros.Cantidad.Value);
                 if (filtros.IdArticulo.HasValue) DetallesNota = DetallesNota.Where(x => x.IdArticulo.Value == filtros.IdArticulo.Value);

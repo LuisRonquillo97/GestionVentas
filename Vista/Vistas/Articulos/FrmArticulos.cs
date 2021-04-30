@@ -106,5 +106,6 @@ namespace Vista.Vistas.Articulos
                 BotonesEdicion();
             }
         }
+
     }
 }

@@ -132,12 +132,38 @@ namespace Controladores.Catalogos
             }
 
         }
+        public List<DgvDetalleNota> ListarDgv(string id, string cantidad, string idArticulo, string idEncabezadoNota, string precioVenta)
+        {
+            //primero revisamos que al menos uno de todos los parámetros que podemos obtener desde el form tenga algún dato
+            //para saber si debemos filtrar algo.
+            if (!string.IsNullOrEmpty(id) || !string.IsNullOrEmpty(cantidad) || !string.IsNullOrEmpty(idArticulo) || !string.IsNullOrEmpty(idEncabezadoNota) || !string.IsNullOrEmpty(precioVenta))
+            {
+                //si alguno tiene valor, creamos el UsuarioEntity.
+                DetalleNotaEntity detalleNota = GenerarEntidad(id, cantidad, idArticulo, idEncabezadoNota, precioVenta);
+                /*
+                 * recordemos que en MVC, el modelo, que es de donde devolvemos los datos, no puede interactual con la vista
+                 * que es el form.
+                 * Utilizamos una clase que tiene los mismos parámetros que la entidad de BD, que generamos desde aquí en controladores
+                 * llamado UsuariosData, que sí puede llegar a la capa de vista(el form).
+                 * nos apoyamos con una herramienta llamada automapper, que pasa los valor de un tipo de objeto A, a un tipo de objeto B.
+                 * La explicación de cómo funciona estará en la clase ArticuloMapper.
+                 * pasamos el UsuarioEntity al método listar, y mapeamos el resultado a una lista de ArticuloData.
+                 */
+                return new DetallesNotaMapper().MapDgvVentas(detallesCatalogo.Listar(detalleNota));
+            }
+            else
+            {
+                //si no se tienen datos para filtrar, obtenemos la lista de los usuarios activos.
+                return new DetallesNotaMapper().MapDgvVentas(detallesCatalogo.Listar());
+            }
+
+        }
         public List<DetallesNotaData> ListarDetallePorEncabezado(string idEncabezado)
         {
             List<DetallesNotaData> detalles = new List<DetallesNotaData>();
-            if(int.TryParse(idEncabezado, out int id))
+            if (int.TryParse(idEncabezado, out _))
             {
-                detalles = Listar(idEncabezado, "", "", "", "");
+                detalles = Listar("", "", "", idEncabezado, "");
             }
             return detalles;
         }

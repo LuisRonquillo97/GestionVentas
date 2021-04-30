@@ -1,10 +1,8 @@
 ﻿using Controladores.Catalogos;
 using Datos.Data;
 using Datos.Helpers;
-using Datos.Mapper;
-using Modelos.Entities;
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using Vista.Interfaces;
@@ -13,15 +11,16 @@ using Vista.Vistas.Clientes;
 
 namespace Vista.Vistas.PuntoVenta
 {
-    public partial class FrmPuntoVenta : Form,IFormClosable
+    public partial class FrmPuntoVenta : Form, IFormClosable
     {
         #region Variables del form
         private readonly ArticulosCatalogoController articulosCat;
         private readonly EncabezadosNotaCatalogoController encabezadosCat;
         private readonly TiposPagoCatalogoController tiposPagoCat;
         private readonly ClientesCatalogoController clientesCat;
-        private readonly List<DgvPuntoVenta> DetallesNotas;
+        private readonly BindingList<DgvDetalleNota> DetallesNotas;
         private decimal Total = 0;
+        private int ExistenciaArticulo = 0;
         #endregion
         public string Key { get; set; }
 
@@ -32,11 +31,20 @@ namespace Vista.Vistas.PuntoVenta
             tiposPagoCat = new TiposPagoCatalogoController();
             clientesCat = new ClientesCatalogoController();
             Key = "Ventas";
-            DetallesNotas = new List<DgvPuntoVenta>();
+            DetallesNotas = new BindingList<DgvDetalleNota>();
+            DetallesNotas.AllowNew = true;
+            DetallesNotas.AllowEdit = true;
+            DetallesNotas.AllowRemove = true;
+            DetallesNotas.ListChanged += DetallesNotas_ListChanged;
             InitializeComponent();
             SetDgv();
             SetCmbTipoPago();
-            
+
+        }
+
+        private void DetallesNotas_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            SetDgv();
         }
         #region Metodos del form
         public void ObtenerArticulo(object sender, EventArgs e)
@@ -49,6 +57,7 @@ namespace Vista.Vistas.PuntoVenta
                 txtDescripcionArticulo.Text = articulo.Descripcion;
                 txtCantidad.Text = "1";
                 txtPrecioUnitario.Text = articulo.PrecioVenta.ToString();
+                ExistenciaArticulo = articulo.Existencia;
             }
 
         }
@@ -91,6 +100,8 @@ namespace Vista.Vistas.PuntoVenta
             txtRfc.Text = "";
             txtNombreCliente.Text = "";
             txtDireccion.Text = "";
+            txtComentarios.Text = "";
+            cmbFormaPago.SelectedItem = null;
         }
         private void LimpiarTodo(bool completo = false)
         {
@@ -102,7 +113,10 @@ namespace Vista.Vistas.PuntoVenta
         {
             if (completo)
             {
-                DetallesNotas.RemoveAll(x => x.IdArticulo > 0);
+                foreach (var detalle in DetallesNotas.ToList())
+                {
+                    DetallesNotas.Remove(detalle);
+                }
                 SetDgv();
                 CalcularTotal();
             }
@@ -117,7 +131,7 @@ namespace Vista.Vistas.PuntoVenta
         private void CalcularTotal()
         {
             Total = 0;
-            foreach (DgvPuntoVenta detalle in DetallesNotas)
+            foreach (DgvDetalleNota detalle in DetallesNotas)
             {
                 Total += detalle.Total;
             }
@@ -136,7 +150,7 @@ namespace Vista.Vistas.PuntoVenta
                     IdTipoPago = idTipoPago,
                     Status = "Creado",
                 };
-                MessageBox.Show(encabezadosCat.AgregarEntidad(encabezado,DetallesNotas));
+                MessageBox.Show(encabezadosCat.AgregarEntidad(encabezado, DetallesNotas.ToList()));
                 LimpiarTodo(true);
             }
         }
@@ -174,37 +188,47 @@ namespace Vista.Vistas.PuntoVenta
 
         private void BtnAgregarArticulo_Click(object sender, EventArgs e)
         {
-            if(int.TryParse(txtCantidad.Text, out int cantidad))
+            if (int.TryParse(txtCantidad.Text, out int cantidad))
             {
-                var detalleNota = DetallesNotas.FirstOrDefault(x => x.IdArticulo.ToString() == txtIdArticulo.Text);
-                if (detalleNota!=null)
+                if (cantidad > ExistenciaArticulo)
                 {
-                    detalleNota.Cantidad = cantidad;
+                    MessageBox.Show($"No contamos con la cantidad indicada de artículos en existencia.\n la cantidad actual del artículo es: {ExistenciaArticulo}");
+                    txtCantidad.Text = ExistenciaArticulo.ToString();
                 }
                 else
                 {
-                    DgvPuntoVenta data = new DgvPuntoVenta()
+                    var detalleNota = DetallesNotas.FirstOrDefault(x => x.IdArticulo.ToString() == txtIdArticulo.Text);
+                    if (detalleNota != null)
                     {
-                        Cantidad = cantidad,
-                        IdArticulo = Convert.ToInt32(txtIdArticulo.Text),
-                        Articulo = txtDescripcionArticulo.Text,
-                        PrecioVenta = Convert.ToDecimal(txtPrecioUnitario.Text),
-                    };
-                    data.Total = data.Cantidad * data.PrecioVenta;
-                    DetallesNotas.Add(data);
+                        detalleNota.Cantidad = cantidad;
+                    }
+                    else
+                    {
+
+                        DgvDetalleNota data = DetallesNotas.AddNew();
+                        data.Cantidad = cantidad;
+                        data.IdArticulo = Convert.ToInt32(txtIdArticulo.Text);
+                        data.Articulo = txtDescripcionArticulo.Text;
+                        data.PrecioVenta = Convert.ToDecimal(txtPrecioUnitario.Text);
+                        data.Total = data.Cantidad * data.PrecioVenta;
+                        DetallesNotas.EndNew(DetallesNotas.IndexOf(data));
+                    }
+                    LimpiarArticulo();
                 }
-                SetDgv();
-                LimpiarArticulo();
+
             }
             else
             {
                 MessageBox.Show("Ingrese una cantidad válida.");
             }
-            
+
         }
 
         private void BtnRemoverArticulo_Click(object sender, EventArgs e)
         {
+            var detalle = DetallesNotas.FirstOrDefault(x => x.IdArticulo.ToString() == txtIdArticulo.Text);
+            if (detalle != null)
+                DetallesNotas.Remove(detalle);
             LimpiarArticulo();
         }
 
@@ -219,7 +243,7 @@ namespace Vista.Vistas.PuntoVenta
                     cambio.FormClosing += Cambio_FormClosing;
                     cambio.ShowDialog();
                 }
-                else 
+                else
                 {
                     FinalizarVenta();
                 }
@@ -234,9 +258,19 @@ namespace Vista.Vistas.PuntoVenta
         private void BtnBuscarCliente_Click(object sender, EventArgs e)
         {
             FrmSeleccionarCliente frmCliente = new FrmSeleccionarCliente();
-            frmCliente.FormClosing +=ObtenerCliente;
+            frmCliente.FormClosing += ObtenerCliente;
             frmCliente.ShowDialog();
         }
         #endregion
+
+        private void DgvVentas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var row = dgvVentas.Rows[e.RowIndex];
+            txtIdArticulo.Text = row.Cells["IdArticulo"].Value.ToString();
+            txtPrecioUnitario.Text = row.Cells["PrecioVenta"].Value.ToString();
+            txtDescripcionArticulo.Text = row.Cells["Articulo"].Value.ToString();
+            txtCantidad.Text = row.Cells["Cantidad"].Value.ToString();
+            ExistenciaArticulo = articulosCat.BuscarPorId(Convert.ToInt32(txtIdArticulo.Text)).Existencia;
+        }
     }
 }

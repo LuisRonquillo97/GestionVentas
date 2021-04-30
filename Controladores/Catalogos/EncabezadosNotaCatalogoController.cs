@@ -69,7 +69,7 @@ namespace Controladores.Catalogos
                 return "Error al agregar Encabezado de nota :\n" + encabezadosCatalogo.Error.Message;
             }
         }
-        public string AgregarEntidad(EncabezadosNotaData encabezadoData, List<DgvPuntoVenta> detallesNotasDgv)
+        public string AgregarEntidad(EncabezadosNotaData encabezadoData, List<DgvDetalleNota> detallesNotasDgv)
         {
             EncabezadoNotaEntity encabezado = new EncabezadosNotaMapper().Map(encabezadoData);
             encabezado.DetalleNotas = new DetallesNotaMapper().MapList(detallesNotasDgv);
@@ -171,16 +171,16 @@ namespace Controladores.Catalogos
          */
         public List<DgvEncabezadoNota> ListarDgvEncabezadoNota(string id, string comentario, DateTime? fechaCreado, string idCliente, string idTipoPago, string status)
         {
-            return new EncabezadosNotaMapper().MapDatagridEncabezado(Listar(id, comentario, fechaCreado, idCliente, idTipoPago, status));
+            return new EncabezadosNotaMapper().MapListDatagridEncabezado(Listar(id, comentario, fechaCreado, idCliente, idTipoPago, status));
         }
 
         public List<EncabezadosNotaData> ListarEncabezadoNotaData(string id, string comentario, DateTime? fechaCreado, string idCliente, string idTipoPago, string status)
         {
             return new EncabezadosNotaMapper().MapList(Listar(id, comentario, fechaCreado, idCliente, idTipoPago, status));
         }
-        public EncabezadoNotaEntity BuscarPorId(int id)
+        public DgvEncabezadoNota BuscarPorId(int id)
         {
-            return encabezadosCatalogo.BuscarPorId(id);
+            return new EncabezadosNotaMapper().MapDatagridEncabezado(encabezadosCatalogo.BuscarPorId(id));
         }
     }
 }

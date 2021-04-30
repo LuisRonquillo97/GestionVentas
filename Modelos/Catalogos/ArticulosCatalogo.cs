@@ -90,6 +90,7 @@ namespace Modelos.Catalogos
                         articulo.Existencia = model.Existencia;
                         articulo.Impuesto = model.Impuesto;
                         articulo.PrecioVenta = model.PrecioVenta;
+                        Context.SaveChanges();
                         return true;
                     }
                     else

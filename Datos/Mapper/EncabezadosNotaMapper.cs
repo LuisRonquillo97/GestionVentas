@@ -44,10 +44,15 @@ namespace Datos.Mapper
             AutoMapper.Mapper mapper = new AutoMapper.Mapper(config);
             return mapper.Map<List<EncabezadoNotaEntity>, List<EncabezadosNotaData>>(origen);
         }
-        public List<DgvEncabezadoNota> MapDatagridEncabezado(List<EncabezadoNotaEntity> origen)
+        public List<DgvEncabezadoNota> MapListDatagridEncabezado(List<EncabezadoNotaEntity> origen)
         {
             AutoMapper.Mapper mapper = new AutoMapper.Mapper(datagridConfig);
             return mapper.Map<List<EncabezadoNotaEntity>, List<DgvEncabezadoNota>>(origen);
+        }
+        public DgvEncabezadoNota MapDatagridEncabezado(EncabezadoNotaEntity origen)
+        {
+            AutoMapper.Mapper mapper = new AutoMapper.Mapper(datagridConfig);
+            return mapper.Map<EncabezadoNotaEntity, DgvEncabezadoNota>(origen);
         }
     }
 }

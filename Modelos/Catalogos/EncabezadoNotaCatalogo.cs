@@ -24,6 +24,14 @@ namespace Modelos.Catalogos
                 if (Validar(model))
                 {
                     Context.EncabezadosNota.Add(model);
+                    foreach(var detalle in model.DetalleNotas)
+                    {
+                        var articulo = Context.Articulos.FirstOrDefault(x => x.Id == detalle.IdArticulo);
+                        if (articulo != null)
+                        {
+                            articulo.Existencia -= detalle.Cantidad;
+                        }
+                    }
                     Context.SaveChanges();
                     return true;
                 }

@@ -219,7 +219,6 @@ namespace Vista.Vistas.Articulos
             this.dgvArticulos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvArticulos.Location = new System.Drawing.Point(0, 0);
             this.dgvArticulos.Name = "dgvArticulos";
-            this.dgvArticulos.ReadOnly = true;
             this.dgvArticulos.RowTemplate.Height = 25;
             this.dgvArticulos.Size = new System.Drawing.Size(624, 221);
             this.dgvArticulos.TabIndex = 0;
