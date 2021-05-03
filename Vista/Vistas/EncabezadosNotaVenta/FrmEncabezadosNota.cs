@@ -25,6 +25,7 @@ namespace Vista.Vistas.EncabezadosNotaVenta
             ModoBusqueda();
             SetCmbTipoPago();
             SetDgv();
+            this.MaximizeBox = false;
         }
         #region metodos de formulario
         public void ModoEdicion()
@@ -86,6 +87,8 @@ namespace Vista.Vistas.EncabezadosNotaVenta
                 cmbitemId = comboBoxItem.Value.ToString();
             }
             dgvEncabezados.DataSource = encabezadosCat.ListarDgvEncabezadoNota(txtId.Text, txtComentario.Text, fecha, txtIdCliente.Text, cmbitemId, cmbStatus.SelectedItem != null ? cmbStatus.SelectedItem.ToString() : "");
+            dgvEncabezados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvEncabezados.Columns[dgvEncabezados.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
         #endregion
 

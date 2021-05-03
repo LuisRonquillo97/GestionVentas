@@ -21,12 +21,14 @@ namespace Vista.Vistas.Usuarios
             BotonesNuevo();
             SetDatagrid();
             Key = "usuarios";
+            this.MaximizeBox = false;
         }
         public void SetDatagrid()
         {
             dgvUsuarios.DataSource = null;
             dgvUsuarios.DataSource = usuariosCat.Listar(txtId.Text, txtNombre.Text, txtUsuario.Text, txtContraseña.Text);
-
+            dgvUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvUsuarios.Columns[dgvUsuarios.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
         public void BotonesEdicion()
         {

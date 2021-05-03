@@ -13,6 +13,7 @@ namespace Vista.Vistas.PuntoVenta
             InitializeComponent();
             txtCantidad.KeyUp += CalcularDiferencia;
             CalcularDiferencia(this, new EventArgs());
+            this.MaximizeBox = false;
         }
 
         private void BtnFinalizar_Click(object sender, EventArgs e)

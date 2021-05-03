@@ -31,6 +31,7 @@ namespace Vista.Vistas.DetallesNotaVenta
                 btnLimpiar.Enabled = false;
             }
             ModoBusquedaEncabezado();
+            this.MaximizeBox = false;
         }
         public FrmDetalleNota()
         {
@@ -45,6 +46,8 @@ namespace Vista.Vistas.DetallesNotaVenta
         {
             dgvDetalleNota.DataSource = null;
             dgvDetalleNota.DataSource = detalleCat.ListarDgv(txtIdDetalleNota.Text, txtCantidad.Text, txtIdArticulo.Text, txtIdNotaVenta.Text, txtPrecioVenta.Text);
+            dgvDetalleNota.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvDetalleNota.Columns[dgvDetalleNota.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
         private void Modificar()
         {

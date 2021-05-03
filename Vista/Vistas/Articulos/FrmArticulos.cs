@@ -22,6 +22,7 @@ namespace Vista.Vistas.Articulos
             btnBuscar.Click += BtnBuscar_Click;
             btnCancelar.Click += BtnCancelar_Click;
             dgvArticulos.CellDoubleClick += DgvArticulos_CellDoubleClick;
+            this.MaximizeBox = false;
         }
         #region Botones
         private void BtnAgregar_Click(object sender, EventArgs e)
@@ -65,8 +66,9 @@ namespace Vista.Vistas.Articulos
         public void SetDataGrid()
         {
             dgvArticulos.DataSource = null;
-            
             dgvArticulos.DataSource = articulosCat.Listar(txtId.Text, txtDescripcion.Text, txtExistencia.Text, txtImpuesto.Text, txtPrecioVenta.Text);
+            dgvArticulos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvArticulos.Columns[dgvArticulos.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
         public void BotonesEdicion()
         {

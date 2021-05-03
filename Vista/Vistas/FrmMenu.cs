@@ -27,6 +27,7 @@ namespace Vista.Vistas
             tsmiVentas.Tag = "FrmPuntoVenta";
             //cuando se abra esta ventana, le decimos que se maximice.
             this.WindowState = FormWindowState.Maximized;
+            this.MaximizeBox = false;
             formularios = new Dictionary<string, Form>();
         }
 

@@ -39,7 +39,7 @@ namespace Vista.Vistas.PuntoVenta
             InitializeComponent();
             SetDgv();
             SetCmbTipoPago();
-
+            this.MaximizeBox = false;
         }
 
         private void DetallesNotas_ListChanged(object sender, ListChangedEventArgs e)
@@ -79,6 +79,8 @@ namespace Vista.Vistas.PuntoVenta
         {
             dgvVentas.DataSource = null;
             dgvVentas.DataSource = DetallesNotas;
+            dgvVentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvVentas.Columns[dgvVentas.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             CalcularTotal();
         }
         private void SetCmbTipoPago()

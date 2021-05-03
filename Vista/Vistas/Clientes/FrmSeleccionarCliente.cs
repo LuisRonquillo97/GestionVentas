@@ -13,11 +13,14 @@ namespace Vista.Vistas.Clientes
             clientesCat = new ClientesCatalogoController();
             InitializeComponent();
             SetDgv();
+            this.MaximizeBox = false;
         }
         public void SetDgv()
         {
             dgvClientes.DataSource = null;
             dgvClientes.DataSource = clientesCat.Listar(txtId.Text, "", txtNombre.Text, txtRfc.Text);
+            dgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvClientes.Columns[dgvClientes.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
         private void DgvClientes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

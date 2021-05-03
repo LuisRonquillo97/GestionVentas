@@ -13,12 +13,14 @@ namespace Vista.Vistas.Articulos
             InitializeComponent();
             articulosCat = new ArticulosCatalogoController();
             SetDataGrid();
+            this.MaximizeBox = false;
         }
         public void SetDataGrid()
         {
             dgvArticulos.DataSource = null;
-
             dgvArticulos.DataSource = articulosCat.Listar(txtId.Text, txtDescripcion.Text, "", "", "");
+            dgvArticulos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvArticulos.Columns[dgvArticulos.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
         private void dgvArticulos_CellClick(object sender, DataGridViewCellEventArgs e)
