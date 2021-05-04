@@ -37,6 +37,7 @@ namespace Vista.Vistas
             this.tsmiEncabezados = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDetalles = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiUsuario = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiProblematica = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,7 +47,8 @@ namespace Vista.Vistas
             this.tsmiArticulos,
             this.tsmiClientes,
             this.tsmiNotas,
-            this.tsmiUsuario});
+            this.tsmiUsuario,
+            this.tsmiProblematica});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -105,6 +107,13 @@ namespace Vista.Vistas
             this.tsmiUsuario.Tag = "FrmUsuarios";
             this.tsmiUsuario.Text = "Usuarios";
             // 
+            // tsmiProblematica
+            // 
+            this.tsmiProblematica.Name = "tsmiProblematica";
+            this.tsmiProblematica.Size = new System.Drawing.Size(89, 20);
+            this.tsmiProblematica.Tag = "FrmProblematica";
+            this.tsmiProblematica.Text = "Problemática";
+            // 
             // FrmMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -132,5 +141,6 @@ namespace Vista.Vistas
         private System.Windows.Forms.ToolStripMenuItem tsmiClientes;
         private System.Windows.Forms.ToolStripMenuItem tsmiArticulos;
         private System.Windows.Forms.ToolStripMenuItem tsmiVentas;
+        private System.Windows.Forms.ToolStripMenuItem tsmiProblematica;
     }
 }

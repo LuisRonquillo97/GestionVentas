@@ -92,6 +92,7 @@ namespace Vista.Vistas.InicioSesion
             this.Controls.Add(this.lblUsuario);
             this.MaximizeBox = false;
             this.Name = "FrmIniciarSesion";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Inicio de sesión";
             this.ResumeLayout(false);
             this.PerformLayout();

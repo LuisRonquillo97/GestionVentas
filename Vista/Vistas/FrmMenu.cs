@@ -24,6 +24,7 @@ namespace Vista.Vistas
             tsmiClientes.Click += Tsmi_Click;
             tsmiArticulos.Click += Tsmi_Click;
             tsmiVentas.Click += Tsmi_Click;
+            tsmiProblematica.Click += Tsmi_Click;
             tsmiVentas.Tag = "FrmPuntoVenta";
             //cuando se abra esta ventana, le decimos que se maximice.
             this.WindowState = FormWindowState.Maximized;
@@ -75,6 +76,7 @@ namespace Vista.Vistas
              */
             formInstance.MdiParent = this;
             formInstance.FormClosed += Child_FormClosed;
+            formInstance.TopMost = true;
             //una vez todo el form está listo, lo mandamos a abrir.
             AbrirForm(key, formInstance);
         }
